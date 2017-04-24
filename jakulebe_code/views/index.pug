@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1= message
+  .container
+    .row.form-group.col-sm-12.center
+      form.col-sm-6(action="/goToLogin" method="post")
+        button.form-control.buttonstyle.whitetext(type="submit") Login
+  .container
+    .row.form-group.col-sm-12.center
+      form.col-sm-6(action="/goToRegister" method="post")
+        button.form-control.buttonstyle.whitetext(type="submit") Register

@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .container
+  form.col-sm-6(action="/login/loginUser" method="post")
+    .row.form-group.col-sm-12.center
+      label.formhead
+        u Log in
+    .row.form-group.col-sm-12
+      .col-sm-3
+        label.col-form-label Username:
+      .col-sm-9
+        input.form-control(type="text" name="username")
+    .row.form-group.col-sm-12
+      .col-sm-3
+        label.col-form-label Password:
+      .col-sm-9
+        input.form-control(type="password" name="password")
+    .row.form-group.col-sm-12
+      .col-sm-3
+      .col-sm-9
+        button.form-control.buttonstyle.whitetext(type="submit") Login

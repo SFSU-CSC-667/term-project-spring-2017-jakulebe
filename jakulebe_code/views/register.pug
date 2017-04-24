@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1= message
+  .container
+  form.col-sm-6(action="/register/registerUser" method="post")
+    .row.form-group.col-sm-12.center
+      label.formhead
+        u Register
+    .row.form-group.col-sm-12
+      .col-sm-3
+        label.col-form-label Username:
+      .col-sm-9
+        input.form-control(type="text" name="username")
+    .row.form-group.col-sm-12
+      .col-sm-3
+        label.col-form-label Password:
+      .col-sm-9
+        input.form-control(type="password" name="password")
+    .row.form-group.col-sm-12
+      .col-sm-3
+      .col-sm-9
+        button.form-control.buttonstyle.whitetext(type="submit") Register
