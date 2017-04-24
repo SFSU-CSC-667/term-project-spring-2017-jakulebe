@@ -40,6 +40,11 @@ function getUserInfo(req, res, next){
 router.use(loggedIn);
 router.use(getUserInfo);
 
+router.post('/logOut',function(req,res){
+  req.logOut();
+  res.redirect('/');
+});
+
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user, message:'logged in', wins:res.locals.user.wins, losses:res.locals.user.losses, ties: res.locals.user.ties });
 });
