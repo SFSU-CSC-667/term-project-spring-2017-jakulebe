@@ -8,7 +8,7 @@ function loggedIn(req, res, next) {
         console.log(req.user, "logged in");
     } else {
         console.log("not logged in");
-        res.render('error', {message:'you must be logged in to view lobby'});
+        res.render('login', {message:'you must be logged in to view lobby'});
     }
 }
 
