@@ -4,7 +4,14 @@ block content
   h1= username
   h2= message
   p Current record #{wins} - #{losses} - #{ties}
+  block content
+  include chat.pug
+  input#name.form-control(type="hidden", name="name", value=username)
+  br
+  br
+  br
+  block content
   .container
     .row.form-group.col-sm-12.center
       form.col-sm-6(action="/lobby/logOut" method="post")
-        button.form-control.buttonstyle.whitetext(type="submit") Log Out
+          button.form-control.buttonstyle.whitetext(type="submit") Log Out
