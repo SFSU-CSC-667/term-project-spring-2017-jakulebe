@@ -11,3 +11,9 @@ CREATE TABLE registeredUsers (
   losses INTEGER DEFAULT 0,
   ties INTEGER DEFAULT 0
 );
+
+CREATE TABLE Games (
+  gameID SERIAL PRIMARY KEY,
+  gamename VARCHAR(45) UNIQUE NOT NULL,
+  max_players INTEGER
+);
