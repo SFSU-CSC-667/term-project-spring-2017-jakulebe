@@ -11,10 +11,14 @@ block content
   br
   br
   block content
+
   .container
-    .row.form-group.col-sm-12.center
-      form.col-sm-6(action="/goToGameRoom" method="post")
-        button.form-control.buttonstyle.whitetext(type="submit") Join Game
+  .col.form-group.col-sm-12
+  form.col-sm-6(action="/goToGameRoom" method="post")
+    .col-sm-3
+      label.col-form-label Gameroom name:
+      input.form-control(type="creategame" name="creategame")
+      button.form-control.buttonstyle.whitetext(type="submit") Create Game
   .container
     .row.form-group.col-sm-12.center
       form.col-sm-6(action="/lobby/logOut" method="post")
