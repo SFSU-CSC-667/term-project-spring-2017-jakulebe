@@ -13,5 +13,9 @@ block content
   block content
   .container
     .row.form-group.col-sm-12.center
+      form.col-sm-6(action="/goToGameRoom" method="post")
+        button.form-control.buttonstyle.whitetext(type="submit") Join Game
+  .container
+    .row.form-group.col-sm-12.center
       form.col-sm-6(action="/lobby/logOut" method="post")
           button.form-control.buttonstyle.whitetext(type="submit") Log Out
