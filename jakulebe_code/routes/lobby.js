@@ -37,6 +37,22 @@ function getUserInfo(req, res, next){
   });
 }
 
+router.use('/createGame',function (req,res,next){
+  const gameRoomName = req.body.gameRoomName;
+  console.log("gamename: " + gameRoomName);
+  const numberOfPlayers = 4;
+  const createGameQuery = `INSERT INTO Games(gameRoomName, max_players) VALUES ($1, $2) RETURNING gameID`;
+  database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers])
+     .then(function()
+     {
+       next();
+     })
+     .catch(function(error) {
+             console.log("ERROR:",error);
+             return res.send(error);
+     });
+ });
+
 router.use(loggedIn);
 router.use(getUserInfo);
 

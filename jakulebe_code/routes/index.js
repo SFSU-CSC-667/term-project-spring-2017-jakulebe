@@ -14,9 +14,5 @@ router.post('/goToLogin', function(req, res, next){
   res.redirect('/login');
 })
 
-router.post('/goToGameRoom', function(req, res, next){
-  res.redirect('/gameroom');
-})
-
 
 module.exports = router;
