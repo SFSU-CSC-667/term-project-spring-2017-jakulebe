@@ -80,6 +80,19 @@ function getListOfGames(req, res, next){
 
 router.use(getListOfGames);
 
+//not finished
+router.get('joinGame', function(req, res, next){
+  const gameID = parseInt(req.query.gameID);
+  res.locals.gameID = gameID;
+  const playerID = res.locals.user.playerID;
+
+  const findPlayerNumberQuery = `SELECT games.current_players FROM games WHERE gameid = $1 `;
+
+});
+
+
+
+
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user, message:'logged in', wins:res.locals.user.wins, losses:res.locals.user.losses, ties: res.locals.user.ties });
 });
