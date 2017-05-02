@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var {database} = require('../database/database');
 
-router.get('/', function(req, res) {
-
+router.get('/', function(req, res, next) {
+  // TODO: this should all be in the /createGameRoom function
     let gameRoomName = req.body.gameRoomName;
     const numberOfPlayers = 4;
     var insertQuery = `INSERT INTO Games (gameRoomName, max_players) VALUES ($1, $2)`;
