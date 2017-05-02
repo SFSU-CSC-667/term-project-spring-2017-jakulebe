@@ -15,5 +15,7 @@ CREATE TABLE registeredUsers (
 CREATE TABLE Games (
   gameID SERIAL PRIMARY KEY,
   gameRoomName VARCHAR(45) UNIQUE NOT NULL,
-  max_players INTEGER
+  max_players INTEGER,
+  current_players INTEGER DEFAULT 0
+
 );

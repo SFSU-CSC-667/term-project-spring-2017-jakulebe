@@ -10,6 +10,20 @@ block content
   br
   br
   br
+  include gameRooms.pug
+  br
+  br
+  block content
+
+  .container
+  .col.form-group.col-sm-12
+  form.col-sm-6(action="/lobby/createGameRoom" method="post")
+    .col-sm-6
+      label.col-form-label Gameroom name:
+      input.form-control(type="gameRoomName" name="gameRoomName")
+      button.form-control.buttonstyle.whitetext(type="submit") Create Game
+  br
+  br
   block content
 
   .container
