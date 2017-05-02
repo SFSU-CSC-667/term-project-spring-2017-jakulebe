@@ -15,6 +15,7 @@ var users = require('./routes/users');
 var register = require('./routes/register');
 var login = require('./routes/login');
 var lobby = require('./routes/lobby');
+var game = require('./routes/game');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/', index);
 app.use('/register', register);
 app.use('/login', login);
 app.use('/lobby', lobby);
+app.use('/game', game);
 
 app.use('/users', users);
 

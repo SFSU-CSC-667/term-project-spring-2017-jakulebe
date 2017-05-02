@@ -6,4 +6,4 @@ table
       td Current Players = #{game.current_players}
       td Max Players = #{game.max_players}
       td
-        button.inlineblock(method="get" onclick="location.href='/lobby/joinGame?gameID=" + #{game.gameID}  + "'") join game
+        button.inlineblock(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") join game

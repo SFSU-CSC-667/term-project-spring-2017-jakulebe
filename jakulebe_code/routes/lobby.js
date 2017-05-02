@@ -22,7 +22,7 @@ function getUserInfo(req, res, next){
     else {
       console.log("creating user object");
       var user = new Object();
-      user.playerID = data.playerID;
+      user.playerID = data.playerid;
       user.username = data.username;
       user.wins = data.wins;
       user.losses = data.losses;
@@ -80,14 +80,47 @@ function getListOfGames(req, res, next){
 
 router.use(getListOfGames);
 
-//not finished
-router.get('joinGame', function(req, res, next){
+//gets the player number based on how many players are in game attempting to join
+router.get('/joinGame', function getPlayerNumber(req, res, next){
   const gameID = parseInt(req.query.gameID);
   res.locals.gameID = gameID;
+
+
+  const findPlayerNumberQuery = `select games.current_players as curr_players from games where games.gameid = $1`;
+  database.oneOrNone(findPlayerNumberQuery, [gameID])
+    .then(function(data){
+      const current_players = parseInt(data.curr_players);
+      if(current_players < 4)
+      {
+        res.locals.player_number = current_players+1;
+        next();
+      }
+      else res.redirect('/lobby')
+    })
+    .catch(function(error){
+      console.log("Error: ", error);
+      return res.send(error);
+    });
+
+});
+
+router.get('/joinGame', function(req, res, next){
+  const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
+  console.log("gameID = ", gameID);
+  const addPlayerToGameQuery = `INSERT INTO Players(gameID, playerID, player_number) VALUES($1, $2, $3)`;
 
-  const findPlayerNumberQuery = `SELECT games.current_players FROM games WHERE gameid = $1 `;
+  database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
+    .then(function(){
+      res.redirect(`/game?gameID=${gameID}`);
+    })
+    .catch(function(error){
+      console.log("Error: ", error);
+      return res.send(error);
+    });
 
+  const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
+  database.none(updateCurrentPlayersQuery, [gameID]);
 });
 
 

@@ -16,10 +16,13 @@ CREATE TABLE Games (
   gameID SERIAL PRIMARY KEY,
   gameRoomName VARCHAR(45) UNIQUE NOT NULL,
   max_players INTEGER,
-  current_players INTEGER DEFAULT 0,
-  player1 INTEGER,
-  player2 INTEGER,
-  player3 INTEGER,
-  player4 INTEGER
-
+  current_players INTEGER DEFAULT 0
 );
+
+CREATE TABLE Players (
+  gameID INTEGER,
+  playerID INTEGER,
+  player_number INTEGER
+);
+
+insert into games(gameroomname, max_players) values ('test game', 4);
