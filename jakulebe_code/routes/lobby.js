@@ -123,7 +123,21 @@ router.get('/joinGame', function(req, res, next){
   database.none(updateCurrentPlayersQuery, [gameID]);
 });
 
-
+router.use('/createGameRoom',function (req,res,next){
+  const gameRoomName = req.body.gameRoomName;
+  const numberOfPlayers = 4;
+  const current_players = 1;
+  const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
+  database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
+    .then(function(){
+      next();
+    })
+    .catch(function(error) {
+      console.log("ERROR:",error);
+      return res.send(error);
+    });
+  res.redirect('/lobby')
+});
 
 
 router.get('/', function(req, res, next) {
