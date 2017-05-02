@@ -37,22 +37,6 @@ function getUserInfo(req, res, next){
   });
 }
 
-router.use('/createGame',function (req,res,next){
-  const gameRoomName = req.body.gameRoomName;
-  console.log("gamename: " + gameRoomName);
-  const numberOfPlayers = 4;
-  const createGameQuery = `INSERT INTO Games(gameRoomName, max_players) VALUES ($1, $2) RETURNING gameID`;
-  database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers])
-     .then(function()
-     {
-       next();
-     })
-     .catch(function(error) {
-             console.log("ERROR:",error);
-             return res.send(error);
-     });
- });
-
 router.use(loggedIn);
 router.use(getUserInfo);
 
@@ -60,6 +44,41 @@ router.post('/logOut',function(req,res){
   req.logOut();
   res.redirect('/');
 });
+
+function getListOfGames(req, res, next){
+  const gameListQuery = `select * from Games`;
+  const games = [];
+  var gameIndex = 0;
+
+  database.any(gameListQuery)
+    .then(function(data){
+      if (data != null && data.length > 0)
+      {
+        for (var index = 0; index < data.length; index++)
+        {
+          if (data[index].current_players != data[index].max_players)
+          {
+            var gameRoom = new Object();
+            gameRoom.gameID = data[index].gameid;
+            console.log(data[index].gameid);
+            gameRoom.gameRoomName = data[index].gameroomname;
+            gameRoom.current_players = data[index].current_players;
+            gameRoom.max_players = data[index].max_players;
+            games[gameIndex] = gameRoom;
+            gameIndex++;
+          }
+        }
+      }
+      res.locals.games = games;
+      next();
+    })
+    .catch(function(error) {
+             console.log("ERROR:",error);
+             return res.send(error);
+})
+}
+
+router.use(getListOfGames);
 
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user, message:'logged in', wins:res.locals.user.wins, losses:res.locals.user.losses, ties: res.locals.user.ties });

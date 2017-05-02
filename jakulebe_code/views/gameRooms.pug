@@ -1,8 +1,9 @@
-.row
-.col-sm-9
-  label.col-sm-12.formhead Join Room
-  .row
-    .col-sm-12.joinroom.window.barstyle
-        each game in games
-          button.gameroom.inlineblock(method="get" onclick="location.href='/lobby/joinGame?gameId=" + game + "'")
-            b Game #{game}
+table
+  for game in games
+    tr
+      td Game Id #{game.gameID}
+      td Name #{game.gameRoomName}
+      td Current Players = #{game.current_players}
+      td Max Players = #{game.max_players}
+      td
+        button.inlineblock(method="get" onclick="location.href='/lobby/joinGame?gameID=" + #{game.gameID}  + "'") join game

@@ -8,7 +8,7 @@ a {
 }
 
 #chat-area {
-  
+
 }
 
 .messages {
@@ -38,4 +38,8 @@ span.user {
   color: #369;
   padding-right: 8px;
   font-weight: bold;
+}
+
+table, th, td {
+   border: 1px solid black;
 }
