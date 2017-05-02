@@ -60,7 +60,7 @@ function getListOfGames(req, res, next){
           {
             var gameRoom = new Object();
             gameRoom.gameID = data[index].gameid;
-            console.log(data[index].gameid);
+            //console.log(data[index].gameid);
             gameRoom.gameRoomName = data[index].gameroomname;
             gameRoom.current_players = data[index].current_players;
             gameRoom.max_players = data[index].max_players;
@@ -126,17 +126,35 @@ router.get('/joinGame', function(req, res, next){
 router.use('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
   const numberOfPlayers = 4;
-  const current_players = 1;
+  const current_players = 0;
   const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
     .then(function(){
+      //res.locals.gameID = gameid;
+      //console.log("gameID = ", res.locals.gameid);
       next();
     })
     .catch(function(error) {
       console.log("ERROR:",error);
       return res.send(error);
     });
-  res.redirect('/lobby')
+
+
+});
+
+router.post('/createGameRoom', function (req, res, next){
+  const gameRoomName = req.body.gameRoomName;
+  const findGameIDQuery = `select games.gameid as gid from games where games.gameroomname =$1`;
+  database.oneOrNone(findGameIDQuery, [gameRoomName])
+    .then(function(data){
+      res.locals.gameID = parseInt(data.gid);
+      console.log("gameID from query = ", res.locals.gameID, data.gid);
+      res.redirect(`/lobby/joinGame?gameID=${res.locals.gameID}`);
+    })
+    .catch(function(error){
+      console.log("Error: ", error);
+      return res.send(error);
+    });
 });
 
 

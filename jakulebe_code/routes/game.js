@@ -24,7 +24,7 @@ router.use(function getGameInfo(req, res, next){
 });
 
 router.get('/', function(req, res, next) {
-  res.render('gameroom', {gameRoomName: res.locals.gameRoomName});
+  res.render('gameroom', {username:req.session.passport.user, gameRoomName: res.locals.gameRoomName});
 });
 
 
