@@ -22,10 +22,8 @@ function getPlayersInfo(req, res, next){
     .catch(function(error) {
       console.log("ERROR:",error);
       return res.send(error);
-      });
+    });
 }
-
-
 
 //this is barebones right now, mainly pulling the name of the game from db to display
 router.use(function getGameInfo(req, res, next){
@@ -51,6 +49,5 @@ router.use(getPlayersInfo);
 router.get('/', function(req, res, next) {
   res.render('gameroom', {username:req.session.passport.user, gameRoomName: res.locals.gameRoomName, players: res.locals.playersInGame});
 });
-
 
 module.exports = router;
