@@ -3,4 +3,9 @@ extends layout
 block content
   h1= gameRoomName
   block content
-  
+
+  table
+    for player in players
+      tr
+        td Player: #{player}
+        td
