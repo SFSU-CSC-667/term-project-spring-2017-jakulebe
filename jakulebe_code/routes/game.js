@@ -25,6 +25,31 @@ function getPlayersInfo(req, res, next){
     });
 }
 
+function loadCards(req, res, next){
+  var deck = [];
+  const getCardsFromDeckQuery = `SELECT * FROM deck`;
+
+  database.any(getCardsFromDeckQuery)
+    .then(function(data){
+      if (data != null && data.length > 0)
+      {
+        for (var index = 0; index < data.length; index++)
+        {
+          var card = new Object();
+          card.card_id = data.card_id;
+          card.card_name = data.card_name;
+          card.value = data.value;
+          deck[index] = card;
+        }
+      }
+      res.local.deck = deck;
+    })
+  }
+
+function shuffleCards(req, res, next){
+  var deck = res.locals.deck;
+}
+
 //this is barebones right now, mainly pulling the name of the game from db to display
 router.use(function getGameInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
@@ -36,6 +61,9 @@ router.use(function getGameInfo(req, res, next){
     .then(function(data){
       console.log("running query");
       res.locals.gameRoomName = data.gameroomname;
+      res.locals.gameID = data.gameid;
+      res.locals.max_players = data.max_players;
+      res.locals.current_players = data.current_players;
       next();
     })
     .catch(function(error) {
