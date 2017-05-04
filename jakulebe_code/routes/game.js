@@ -48,6 +48,15 @@ function loadCards(req, res, next){
 
 function shuffleCards(req, res, next){
   var deck = res.locals.deck;
+  shuffle(deck);
+  res.locals.deck = deck;
+}
+
+function shuffle(array){
+  for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
 }
 
 //this is barebones right now, mainly pulling the name of the game from db to display
