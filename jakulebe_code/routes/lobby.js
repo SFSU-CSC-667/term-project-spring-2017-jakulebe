@@ -112,6 +112,8 @@ router.get('/joinGame', function(req, res, next){
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
     .then(function(){
+      const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
+      database.none(updateCurrentPlayersQuery, [gameID]);
       res.redirect(`/game?gameID=${gameID}`);
     })
     .catch(function(error){
@@ -119,20 +121,21 @@ router.get('/joinGame', function(req, res, next){
       return res.send(error);
     });
 
-  const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
-  database.none(updateCurrentPlayersQuery, [gameID]);
+
 });
 
-router.use('/createGameRoom',function (req,res,next){
+router.post('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
   const numberOfPlayers = 4;
   const current_players = 0;
   const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
-    .then(function(){
+    .then(function(data){
       //res.locals.gameID = gameid;
-      //console.log("gameID = ", res.locals.gameid);
-      next();
+      console.log("gameID(create) = ", data.gameid);
+      const gameID = parseInt(data.gameid);
+      res.redirect(`/lobby/joinGame?gameID=${gameID}`);
+      //next();
     })
     .catch(function(error) {
       console.log("ERROR:",error);
@@ -142,7 +145,9 @@ router.use('/createGameRoom',function (req,res,next){
 
 });
 
-router.post('/createGameRoom', function (req, res, next){
+//This is all handled in the above function now
+
+/*router.post('/createGameRoom', function (req, res, next){
   const gameRoomName = req.body.gameRoomName;
   const findGameIDQuery = `select games.gameid as gid from games where games.gameroomname =$1`;
   database.oneOrNone(findGameIDQuery, [gameRoomName])
@@ -156,7 +161,7 @@ router.post('/createGameRoom', function (req, res, next){
       return res.send(error);
     });
 });
-
+*/
 
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user, message:'logged in', wins:res.locals.user.wins, losses:res.locals.user.losses, ties: res.locals.user.ties });
