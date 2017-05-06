@@ -7,6 +7,42 @@ a {
   color: #00B7FF;
 }
 
+/* login and register screen styles */
+
+#error-label{
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: red;
+}
+.top-bottom-padding{
+  padding-top: 8px;
+  padding-bottom: 5px;
+  float: right;
+  font-size: 16px;
+}
+
+img.login-register-image{
+  width: 100%;
+}
+
+.draw-border{
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.draw-border-red{
+  border: 2px solid red;
+  border-radius: 40px;
+  background-color: rgba(255,0,0,0.2);
+}
+
+h2.screen-title{
+  text-align: center;
+  font-weight: bold;
+}
+
+
 #chat-area {
 
 }
