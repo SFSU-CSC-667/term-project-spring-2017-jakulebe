@@ -131,11 +131,8 @@ router.post('/createGameRoom',function (req,res,next){
   const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
     .then(function(data){
-      //res.locals.gameID = gameid;
-      console.log("gameID(create) = ", data.gameid);
       const gameID = parseInt(data.gameid);
       res.redirect(`/lobby/joinGame?gameID=${gameID}`);
-      //next();
     })
     .catch(function(error) {
       console.log("ERROR:",error);
