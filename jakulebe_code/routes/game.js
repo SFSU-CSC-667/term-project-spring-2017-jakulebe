@@ -30,7 +30,7 @@ router.use(function getGameInfo(req, res, next){
 
 function getPlayersInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
-  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE playerID IN (Select playerID FROM Players WHERE gameID = $1)`;
+  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE player_id IN (Select player_id FROM Players WHERE game_id = $1)`;
   const playersInGame = [];
 
   database.any(getPlayersInGameQuery, [gameID])
@@ -52,6 +52,7 @@ function getPlayersInfo(req, res, next){
 }
 
 router.use(getPlayersInfo);
+
 
 
 

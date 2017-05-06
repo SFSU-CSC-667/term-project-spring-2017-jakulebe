@@ -22,7 +22,7 @@ function getUserInfo(req, res, next){
     else {
       console.log("creating user object");
       var user = new Object();
-      user.playerID = data.playerid;
+      user.playerID = data.player_id;
       user.username = data.username;
       user.wins = data.wins;
       user.losses = data.losses;
@@ -59,9 +59,8 @@ function getListOfGames(req, res, next){
           if (data[index].current_players != data[index].max_players)
           {
             var gameRoom = new Object();
-            gameRoom.gameID = data[index].gameid;
-            //console.log(data[index].gameid);
-            gameRoom.gameRoomName = data[index].gameroomname;
+            gameRoom.gameID = data[index].game_id;
+            gameRoom.gameRoomName = data[index].game_room_name;
             gameRoom.current_players = data[index].current_players;
             gameRoom.max_players = data[index].max_players;
             games[gameIndex] = gameRoom;
@@ -86,7 +85,7 @@ router.get('/joinGame', function getPlayerNumber(req, res, next){
   res.locals.gameID = gameID;
 
 
-  const findPlayerNumberQuery = `select games.current_players as curr_players from games where games.gameid = $1`;
+  const findPlayerNumberQuery = `select games.current_players as curr_players from games where games.game_id = $1`;
   database.oneOrNone(findPlayerNumberQuery, [gameID])
     .then(function(data){
       const current_players = parseInt(data.curr_players);
@@ -108,7 +107,7 @@ router.get('/joinGame', function(req, res, next){
   const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
   console.log("gameID = ", gameID);
-  const addPlayerToGameQuery = `INSERT INTO Players(gameID, playerID, player_number) VALUES($1, $2, $3)`;
+  const addPlayerToGameQuery = `INSERT INTO Players(game_id, player_id, player_number) VALUES($1, $2, $3)`;
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
     .then(function(){
@@ -202,12 +201,14 @@ router.use('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
   const numberOfPlayers = 4;
   const current_players = 0;
+
   const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
     .then(function(data){
       const gameID = parseInt(data.gameid);
       res.locals.gameID = gameID;
       console.log("gamedID = ", data.gameid);
+
       next();
       //res.redirect(`/lobby/joinGame?gameID=${gameID}`);
     })
@@ -230,7 +231,7 @@ router.post('/createGameRoom', function(req, res, next){
 
 /*router.post('/createGameRoom', function (req, res, next){
   const gameRoomName = req.body.gameRoomName;
-  const findGameIDQuery = `select games.gameid as gid from games where games.gameroomname =$1`;
+  const findGameIDQuery = `select games.game_id as gid from games where games.game_room_name =$1`;
   database.oneOrNone(findGameIDQuery, [gameRoomName])
     .then(function(data){
       res.locals.gameID = parseInt(data.gid);
