@@ -22,7 +22,7 @@ function getUserInfo(req, res, next){
     else {
       console.log("creating user object");
       var user = new Object();
-      user.playerID = data.playerid;
+      user.playerID = data.player_id;
       user.username = data.username;
       user.wins = data.wins;
       user.losses = data.losses;
@@ -59,9 +59,8 @@ function getListOfGames(req, res, next){
           if (data[index].current_players != data[index].max_players)
           {
             var gameRoom = new Object();
-            gameRoom.gameID = data[index].gameid;
-            //console.log(data[index].gameid);
-            gameRoom.gameRoomName = data[index].gameroomname;
+            gameRoom.gameID = data[index].game_id;
+            gameRoom.gameRoomName = data[index].game_room_name;
             gameRoom.current_players = data[index].current_players;
             gameRoom.max_players = data[index].max_players;
             games[gameIndex] = gameRoom;
@@ -86,7 +85,7 @@ router.get('/joinGame', function getPlayerNumber(req, res, next){
   res.locals.gameID = gameID;
 
 
-  const findPlayerNumberQuery = `select games.current_players as curr_players from games where games.gameid = $1`;
+  const findPlayerNumberQuery = `select games.current_players as curr_players from games where games.game_id = $1`;
   database.oneOrNone(findPlayerNumberQuery, [gameID])
     .then(function(data){
       const current_players = parseInt(data.curr_players);
@@ -108,10 +107,12 @@ router.get('/joinGame', function(req, res, next){
   const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
   console.log("gameID = ", gameID);
-  const addPlayerToGameQuery = `INSERT INTO Players(gameID, playerID, player_number) VALUES($1, $2, $3)`;
+  const addPlayerToGameQuery = `INSERT INTO Players(game_id, player_id, player_number) VALUES($1, $2, $3)`;
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
     .then(function(){
+      const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
+      database.none(updateCurrentPlayersQuery, [gameID]);
       res.redirect(`/game?gameID=${gameID}`);
     })
     .catch(function(error){
@@ -119,32 +120,118 @@ router.get('/joinGame', function(req, res, next){
       return res.send(error);
     });
 
-  const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
-  database.none(updateCurrentPlayersQuery, [gameID]);
+
 });
+
+function loadCardsFromDeck(req, res, next){
+  var deck = [];
+  const getCardsFromDeckQuery = `SELECT * FROM deck`;
+
+  database.any(getCardsFromDeckQuery)
+    .then(function(data){
+      if (data != null && data.length > 0)
+      {
+        for (var index = 0; index < data.length; index++)
+        {
+          var card = new Object();
+          card.card_id = data[index].card_id;
+          //console.log("card id = ", card.card_id);
+          card.card_name = data[index].card_name;
+          card.value = data[index].value;
+          deck[index] = card;
+        }
+      }
+      res.locals.deck = deck;
+      console.log("cards loaded into array");
+      next();
+    })
+    .catch(function(error){
+      console.log("Error: ", error);
+      return res.send(error);
+    });
+  }
+
+function shuffle(array){
+    console.log("shuffling algorithm");
+      for (let i = array.length; i; i--) {
+
+            let j = Math.floor(Math.random() * i);
+            [array[i - 1], array[j]] = [array[j], array[i - 1]];
+        }
+        console.log("shuffling algorithm finished");
+  }
+
+function shuffleCards(req, res, next){
+    var deck = [];
+    deck = res.locals.deck;
+    shuffle(deck);
+    res.locals.deck = deck;
+    next();
+}
+
+function insertCardsIntoCardsInPlay(req, res, next){
+    var deck = [];
+    deck = res.locals.deck;
+    const gameID = res.locals.gameID;
+    const player_id = -1;
+
+    for (let i = 0; i < deck.length; i++)
+    {
+      var card_id = deck[i].card_id;
+      var card_name = deck[i].card_name;
+      var value = deck[i].value;
+
+      var insertCardQuery = `INSERT INTO cards_in_play(card_id, card_name, value, game_id, player_id) VALUES($1, $2, $3, $4, $5)`;
+      database.none(insertCardQuery, [card_id, card_name, value, gameID, player_id])
+        .then(function(){
+          //console.log("card inserted: ", card_name);
+          //next();
+        })
+        .catch(function(error){
+          console.log("Error: ", error);
+          return res.send(error);
+        });
+      }
+      console.log("all cards inserted!");
+      next();
+}
+
 
 router.use('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
   const numberOfPlayers = 4;
   const current_players = 0;
+
   const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
-    .then(function(){
-      //res.locals.gameID = gameid;
-      //console.log("gameID = ", res.locals.gameid);
+    .then(function(data){
+      const gameID = parseInt(data.gameid);
+      res.locals.gameID = gameID;
+      console.log("gamedID = ", data.gameid);
+
       next();
+      //res.redirect(`/lobby/joinGame?gameID=${gameID}`);
     })
     .catch(function(error) {
       console.log("ERROR:",error);
       return res.send(error);
     });
-
-
 });
 
-router.post('/createGameRoom', function (req, res, next){
+router.use('/createGameRoom', loadCardsFromDeck);
+router.use('/createGameRoom', shuffleCards);
+router.use('/createGameRoom', insertCardsIntoCardsInPlay);
+
+router.post('/createGameRoom', function(req, res, next){
+  const gameID = res.locals.gameID;
+  res.redirect(`/lobby/joinGame?gameID=${gameID}`);
+})
+
+//This is all handled in the above function now
+
+/*router.post('/createGameRoom', function (req, res, next){
   const gameRoomName = req.body.gameRoomName;
-  const findGameIDQuery = `select games.gameid as gid from games where games.gameroomname =$1`;
+  const findGameIDQuery = `select games.game_id as gid from games where games.game_room_name =$1`;
   database.oneOrNone(findGameIDQuery, [gameRoomName])
     .then(function(data){
       res.locals.gameID = parseInt(data.gid);
@@ -156,7 +243,7 @@ router.post('/createGameRoom', function (req, res, next){
       return res.send(error);
     });
 });
-
+*/
 
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user, message:'logged in', wins:res.locals.user.wins, losses:res.locals.user.losses, ties: res.locals.user.ties });
