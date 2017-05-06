@@ -4,7 +4,7 @@ var {database} = require('../database/database');
 
 function getPlayersInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
-  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE player_id IN (Select player_id FROM Players WHERE gameID = $1)`;
+  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE player_id IN (Select player_id FROM Players WHERE game_id = $1)`;
   const playersInGame = [];
 
   database.any(getPlayersInGameQuery, [gameID])
@@ -56,12 +56,12 @@ router.use(function getGameInfo(req, res, next){
   console.log("calling game functions");
   res.locals.gameID = gameID;
   console.log("gameID = ", gameID);
-  const getGameInfoQuery = `select * from Games where gameid = $1`;
+  const getGameInfoQuery = `select * from Games where game_id = $1`;
   database.oneOrNone(getGameInfoQuery, [gameID])
     .then(function(data){
       console.log("running query");
       res.locals.gameRoomName = data.gameroomname;
-      res.locals.gameID = data.gameid;
+      res.locals.gameID = data.game_id;
       res.locals.max_players = data.max_players;
       res.locals.current_players = data.current_players;
       next();

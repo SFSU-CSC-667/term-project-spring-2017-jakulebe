@@ -13,14 +13,14 @@ CREATE TABLE registeredUsers (
 );
 
 CREATE TABLE Games (
-  gameID SERIAL PRIMARY KEY,
+  game_id SERIAL PRIMARY KEY,
   gameRoomName VARCHAR(45) UNIQUE NOT NULL,
   max_players INTEGER,
   current_players INTEGER DEFAULT 0
 );
 
 CREATE TABLE Players (
-  gameID INTEGER,
+  game_id INTEGER,
   player_id INTEGER,
   player_number INTEGER
 );
