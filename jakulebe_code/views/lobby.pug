@@ -9,6 +9,7 @@ block content
   input#name.form-control(type="hidden", name="name", value=username)
   br
   br
+  a(href="../stats") Leaderboards
   br
   include gameRooms.pug
   br
@@ -26,7 +27,6 @@ block content
   br
   block content
 
-  
   .container
     .row.form-group.col-sm-12.center
       form.col-sm-6(action="/lobby/logOut" method="post")
