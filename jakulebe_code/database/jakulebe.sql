@@ -4,7 +4,7 @@ CREATE DATABASE jakulebe;
 \c jakulebe;
 
 CREATE TABLE registeredUsers (
-  playerID SERIAL PRIMARY KEY,
+  player_id SERIAL PRIMARY KEY,
   username VARCHAR(45) UNIQUE NOT NULL,
   password VARCHAR(45) NOT NULL,
   wins INTEGER DEFAULT 0,
@@ -21,7 +21,7 @@ CREATE TABLE Games (
 
 CREATE TABLE Players (
   gameID INTEGER,
-  playerID INTEGER,
+  player_id INTEGER,
   player_number INTEGER
 );
 

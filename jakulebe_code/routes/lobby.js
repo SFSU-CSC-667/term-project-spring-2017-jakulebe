@@ -22,7 +22,7 @@ function getUserInfo(req, res, next){
     else {
       console.log("creating user object");
       var user = new Object();
-      user.playerID = data.playerid;
+      user.playerID = data.player_id;
       user.username = data.username;
       user.wins = data.wins;
       user.losses = data.losses;
@@ -108,7 +108,7 @@ router.get('/joinGame', function(req, res, next){
   const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
   console.log("gameID = ", gameID);
-  const addPlayerToGameQuery = `INSERT INTO Players(gameID, playerID, player_number) VALUES($1, $2, $3)`;
+  const addPlayerToGameQuery = `INSERT INTO Players(gameID, player_id, player_number) VALUES($1, $2, $3)`;
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
     .then(function(){

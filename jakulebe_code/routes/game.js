@@ -4,7 +4,7 @@ var {database} = require('../database/database');
 
 function getPlayersInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
-  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE playerID IN (Select playerID FROM Players WHERE gameID = $1)`;
+  const getPlayersInGameQuery = `SELECT * FROM registeredUsers WHERE player_id IN (Select player_id FROM Players WHERE gameID = $1)`;
   const playersInGame = [];
 
   database.any(getPlayersInGameQuery, [gameID])
