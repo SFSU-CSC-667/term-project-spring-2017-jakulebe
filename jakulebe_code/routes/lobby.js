@@ -111,7 +111,7 @@ router.get('/joinGame', function(req, res, next){
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
     .then(function(){
-      const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE gameid = $1`;
+      const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE game_id = $1`;
       database.none(updateCurrentPlayersQuery, [gameID]);
       res.redirect(`/game?gameID=${gameID}`);
     })
@@ -202,12 +202,10 @@ router.use('/createGameRoom',function (req,res,next){
   const numberOfPlayers = 4;
   const current_players = 0;
 
-  const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING gameID`;
+  const createGameQuery = `INSERT INTO Games(game_room_name, max_players, current_players) VALUES ($1, $2, $3) RETURNING game_id`;
   database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
     .then(function(data){
-      const gameID = parseInt(data.gameid);
-      res.locals.gameID = gameID;
-      console.log("gamedID = ", data.gameid);
+      res.locals.gameID = parseInt(data.game_id);
 
       next();
       //res.redirect(`/lobby/joinGame?gameID=${gameID}`);
