@@ -14,7 +14,7 @@ CREATE TABLE registeredUsers (
 
 CREATE TABLE Games (
   game_id SERIAL PRIMARY KEY,
-  gameRoomName VARCHAR(45) UNIQUE NOT NULL,
+  game_room_name VARCHAR(45) UNIQUE NOT NULL,
   max_players INTEGER,
   current_players INTEGER DEFAULT 0
 );
@@ -91,4 +91,4 @@ insert into deck(card_id, card_name , value) values (50,'JD',11);
 insert into deck(card_id, card_name , value) values (51,'QD',12);
 insert into deck(card_id, card_name , value) values (52,'KD',13);
 
-insert into games(gameroomname, max_players) values ('test game', 4);
+insert into games(game_room_name, max_players) values ('test game', 4);

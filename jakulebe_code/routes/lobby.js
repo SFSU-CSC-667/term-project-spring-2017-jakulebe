@@ -60,7 +60,7 @@ function getListOfGames(req, res, next){
           {
             var gameRoom = new Object();
             gameRoom.gameID = data[index].game_id;
-            gameRoom.gameRoomName = data[index].gameroomname;
+            gameRoom.gameRoomName = data[index].game_room_name;
             gameRoom.current_players = data[index].current_players;
             gameRoom.max_players = data[index].max_players;
             games[gameIndex] = gameRoom;
@@ -126,8 +126,8 @@ router.use('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
   const numberOfPlayers = 4;
   const current_players = 0;
-  const createGameQuery = `INSERT INTO Games(gameRoomName, max_players, current_players) VALUES ($1, $2, $3) RETURNING game_id`;
-  database.oneOrNone(createGameQuery,[gameRoomName,numberOfPlayers,current_players])
+  const createGameQuery = `INSERT INTO Games(game_room_name, max_players, current_players) VALUES ($1, $2, $3) RETURNING game_id`;
+  database.oneOrNone(createGameQuery,[gameRoomName, numberOfPlayers,current_players])
     .then(function(){
       //res.locals.gameID = gameid;
       //console.log("gameID = ", res.locals.gameid);
@@ -143,7 +143,7 @@ router.use('/createGameRoom',function (req,res,next){
 
 router.post('/createGameRoom', function (req, res, next){
   const gameRoomName = req.body.gameRoomName;
-  const findGameIDQuery = `select games.game_id as gid from games where games.gameroomname =$1`;
+  const findGameIDQuery = `select games.game_id as gid from games where games.game_room_name =$1`;
   database.oneOrNone(findGameIDQuery, [gameRoomName])
     .then(function(data){
       res.locals.gameID = parseInt(data.gid);
