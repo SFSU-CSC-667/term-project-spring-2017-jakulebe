@@ -22,6 +22,11 @@ a {
   font-size: 16px;
 }
 
+div.center-align{
+  align:center;
+  margin: 0 auto;
+}
+
 img.login-register-image{
   width: 100%;
 }
@@ -35,6 +40,18 @@ img.login-register-image{
   border: 2px solid red;
   border-radius: 40px;
   background-color: rgba(255,0,0,0.2);
+}
+
+.draw-border-blue{
+  border: 2px solid blue;
+  border-radius: 4px;
+  background-color: rgba(0,0,255,0.1);
+}
+
+.draw-border-green{
+  border: 2px solid green;
+  border-radius: 4px;
+  background-color: rgba(0,255,0,0.1);
 }
 
 h2.screen-title{

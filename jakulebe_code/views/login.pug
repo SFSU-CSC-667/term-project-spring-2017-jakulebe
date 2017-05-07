@@ -1,11 +1,10 @@
 extends layout
 
 block content
-  h1= message
   div.row
     div.col-sm-2
-    .container
-      form.col-sm-8(action="/login/loginUser" method="post").draw-border
+    .container.col-sm-8.center-align
+      form.col-sm-12(action="/login/loginUser" method="post").draw-border-blue
         .row.com-sm-12
           img(src="../img/go-fish.jpg" alt="app logo").login-register-image
         .row.form-group.col-sm-12.center
@@ -27,4 +26,4 @@ block content
                 h5#error-label.error-label Invalid credentials
           .col-sm-9
             button.form-control.btn.btn-primary.whitetext(type="submit") LOGIN
-      div.col-sm-2
+    .col-sm-2
