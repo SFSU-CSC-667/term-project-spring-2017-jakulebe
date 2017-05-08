@@ -120,6 +120,31 @@ router.get('/joinGame', function(req, res, next){
     res.redirect(`/game?gameID=${gameID}`);
 });
 
+function checkIfGameNameTaken(req, res, next){
+  const gameRoomName = req.body.gameRoomName;
+
+  var gameNameQuery = `select * from Games where game_room_name = $1`;
+  database.oneOrNone(gameNameQuery, [gameRoomName])
+  .then(function(data){
+    if(data != null)
+    {
+      res.render('lobby', { username:req.session.passport.user,
+                            message:'logged in',
+                            wins:res.locals.user.wins,
+                            losses:res.locals.user.losses,
+                            ties: res.locals.user.ties,
+                            gameMessage: 'Game Name Taken!'
+                          });
+    }
+    else {
+      next();
+    }
+  })
+  .catch(function(error){
+    return res.send(error);
+  });
+}
+
 function loadCardsFromDeck(req, res, next){
   var deck = [];
   const getCardsFromDeckQuery = `SELECT * FROM deck`;
@@ -193,6 +218,7 @@ function insertCardsIntoCardsInPlay(req, res, next){
       next();
 }
 
+router.use('/createGameRoom', checkIfGameNameTaken);
 
 router.use('/createGameRoom',function (req,res,next){
   const gameRoomName = req.body.gameRoomName;
@@ -222,23 +248,7 @@ router.post('/createGameRoom', function(req, res, next){
   res.redirect(`/lobby/joinGame?gameID=${gameID}`);
 })
 
-//This is all handled in the above function now
 
-/*router.post('/createGameRoom', function (req, res, next){
-  const gameRoomName = req.body.gameRoomName;
-  const findGameIDQuery = `select games.game_id as gid from games where games.game_room_name =$1`;
-  database.oneOrNone(findGameIDQuery, [gameRoomName])
-    .then(function(data){
-      res.locals.gameID = parseInt(data.gid);
-      console.log("gameID from query = ", res.locals.gameID, data.gid);
-      res.redirect(`/lobby/joinGame?gameID=${res.locals.gameID}`);
-    })
-    .catch(function(error){
-      console.log("Error: ", error);
-      return res.send(error);
-    });
-});
-*/
 
 router.get('/', function(req, res, next) {
   res.render('lobby', { username:req.session.passport.user,
