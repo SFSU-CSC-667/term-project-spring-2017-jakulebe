@@ -14,5 +14,9 @@ router.post('/goToLogin', function(req, res, next){
   res.redirect('/login');
 })
 
+router.post('/backToLobby', function(req, res, next){
+  res.redirect('/lobby');
+})
+
 
 module.exports = router;

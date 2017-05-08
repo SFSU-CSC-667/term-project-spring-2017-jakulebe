@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var {database} = require('../database/database');
 
-
 //this is barebones right now, mainly pulling the name of the game from db to display
 router.use(function getGameInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
@@ -24,9 +23,6 @@ router.use(function getGameInfo(req, res, next){
       return res.send(error);
       });
 });
-
-
-
 
 function getPlayersInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
@@ -52,7 +48,6 @@ function getPlayersInfo(req, res, next){
 }
 
 router.use(getPlayersInfo);
-
 
 
 
