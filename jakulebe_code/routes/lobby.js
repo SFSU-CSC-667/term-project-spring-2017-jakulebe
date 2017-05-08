@@ -16,7 +16,7 @@ function getUserInfo(req, res, next){
   var userQuery = `select * from registeredUsers where username = $1`;
   database.oneOrNone(userQuery, [req.session.passport.user])
   .then(function(data){
-    if (data== null || data.length == 0){
+    if (data == null || data.length == 0){
       return res.redirect('/');
     }
     else {
@@ -106,21 +106,18 @@ router.get('/joinGame', function getPlayerNumber(req, res, next){
 router.get('/joinGame', function(req, res, next){
   const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
-  console.log("gameID = ", gameID);
+
   const addPlayerToGameQuery = `INSERT INTO Players(game_id, player_id, player_number) VALUES($1, $2, $3)`;
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
-    .then(function(){
-      const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE game_id = $1`;
-      database.none(updateCurrentPlayersQuery, [gameID]);
-      res.redirect(`/game?gameID=${gameID}`);
-    })
+  .then(function(){
+    const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE game_id = $1`;
+    database.none(updateCurrentPlayersQuery, [gameID]);
+  })
     .catch(function(error){
-      console.log("Error: ", error);
-      return res.send(error);
-    });
+  });
 
-
+    res.redirect(`/game?gameID=${gameID}`);
 });
 
 function loadCardsFromDeck(req, res, next){

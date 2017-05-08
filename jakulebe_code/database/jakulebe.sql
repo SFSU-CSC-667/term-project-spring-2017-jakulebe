@@ -20,9 +20,10 @@ CREATE TABLE Games (
 );
 
 CREATE TABLE Players (
-  game_id INTEGER,
-  player_id INTEGER,
-  player_number INTEGER
+ game_id INTEGER REFERENCES Games(game_id),
+ player_id INTEGER REFERENCES registeredUsers(player_id),
+ player_number INTEGER,
+ PRIMARY KEY (game_id,player_id)
 );
 
 CREATE TABLE deck (
@@ -32,12 +33,14 @@ CREATE TABLE deck (
 );
 
 CREATE TABLE cards_in_play (
-    card_id INTEGER,
-    card_name VARCHAR(20),
-    value INTEGER,
-    game_id INTEGER,
-    player_id INTEGER
+ card_id INTEGER REFERENCES deck(card_id),
+ card_name VARCHAR(20),
+ value INTEGER,
+ game_id INTEGER REFERENCES Games(game_id),
+ player_id INTEGER,
+ PRIMARY KEY (card_id,game_id)
 );
+
 insert into deck(card_id, card_name , value) values (1,'1H',1);
 insert into deck(card_id, card_name , value) values (2,'2H',2);
 insert into deck(card_id, card_name , value) values (3,'3H',3);
