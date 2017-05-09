@@ -93,5 +93,3 @@ insert into deck(card_id, card_name , value) values (49,'10D',10);
 insert into deck(card_id, card_name , value) values (50,'JD',11);
 insert into deck(card_id, card_name , value) values (51,'QD',12);
 insert into deck(card_id, card_name , value) values (52,'KD',13);
-
-insert into games(game_room_name, max_players) values ('test game', 4);
