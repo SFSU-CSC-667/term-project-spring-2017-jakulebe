@@ -250,6 +250,9 @@ router.post('/createGameRoom', function(req, res, next){
 })
 
 router.get('/', function(req, res, next) {
+
+  
+
   User.wins_desc()
     .then( users => {
       leaderboard = {
@@ -264,6 +267,7 @@ router.get('/', function(req, res, next) {
         leaderboard
       });
     })
+
 });
 
 

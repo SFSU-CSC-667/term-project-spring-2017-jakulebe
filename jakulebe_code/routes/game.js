@@ -53,8 +53,25 @@ function getPlayersInfo(req, res, next){
 
 router.use(getPlayersInfo);
 
+function getPlayerIDByPlayerName(req, res, next){
+  const playerName = req.session.passport.user;
 
-//router.use(getPlayerNumberForEachPlayer);
+  const playerIDQuery = `SELECT player_id FROM registeredUsers WHERE username = $1`;
+
+  database.oneOrNone(playerIDQuery, [playerName])
+    .then(function(data){
+      res.locals.playerID = data.player_id;
+      console.log("playerID fetched = ", res.locals.playerID);
+      next();
+    })
+    .catch(function(error) {
+      console.log("ERROR:",error);
+      return res.send(error);
+    });
+}
+
+router.use(getPlayerIDByPlayerName);
+
 
 function checkIfGameFull(req, res, next){
   const gameID = res.locals.gameID;
@@ -133,7 +150,7 @@ function dealCards(req, res, next){
     console.log('ready to deal');
     console.log('max players = ', maxPlayers);
     console.log('gameID = ', gameID);
-    
+
 
     const dealCardQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
                             (SELECT card_id FROM cards_in_play WHERE game_id = $2
@@ -181,6 +198,8 @@ router.use(dealCards);
 router.get('/', function(req, res, next) {
   //console.log('Game Full Flag = ', res.locals.gameFullFlag);
   res.render('gameroom', {username:req.session.passport.user,
+                          gameID: res.locals.gameID,
+                          playerID: res.locals.playerID,
                           gameRoomName: res.locals.gameRoomName,
                           players: res.locals.playersInGame});
 });
