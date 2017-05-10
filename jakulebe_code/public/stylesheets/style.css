@@ -465,6 +465,12 @@ img.login-register-image{
   border-radius: 2px;
 }
 
+.draw-border-chat{
+  border: 1px solid grey;
+  border-radius: 2px;
+  background-color: rgba(20,20,10,0.15);
+}
+
 .draw-border-red{
   border: 2px solid red;
   border-radius: 40px;
@@ -522,6 +528,6 @@ span.user {
   font-weight: bold;
 }
 
-table, th, td {
+/*table, th, td {
    border: 1px solid black;
-}
+}*/
