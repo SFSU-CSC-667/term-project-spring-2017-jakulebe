@@ -1,10 +1,12 @@
-extends layout
+extends gameLayout
 
 block content
   .container
     form.col-sm-1(action="/backToLobby" method="post")
       button.form-control.buttonstyle.whitetext(type="submit") Lobby
   h1= gameRoomName
+  #socket
+    .message
   block content
 
   table

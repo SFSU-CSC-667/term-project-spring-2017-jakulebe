@@ -251,6 +251,8 @@ router.post('/createGameRoom', function(req, res, next){
 
 
 router.get('/', function(req, res, next) {
+  
+
   res.render('lobby', { username:req.session.passport.user,
                         message:'logged in',
                         wins:res.locals.user.wins,
