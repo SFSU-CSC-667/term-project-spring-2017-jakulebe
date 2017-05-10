@@ -41,7 +41,7 @@ router.post('/registerUser', function(req, res, next)
     return res.send(error);
   });
 }, passport.authenticate('local',
-{successRedirect: '/lobby', failureRedirect: '/'}));
+{successRedirect: '/lobby', failureRedirect: '/login/loginError'}));
 
 
 

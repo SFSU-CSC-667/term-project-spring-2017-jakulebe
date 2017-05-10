@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var {database} = require('../database/database');
+const {User} = require('../database/');
 
 function loggedIn(req, res, next) {
     if (req.user) {
@@ -248,19 +249,26 @@ router.post('/createGameRoom', function(req, res, next){
   res.redirect(`/lobby/joinGame?gameID=${gameID}`);
 })
 
-
-
 router.get('/', function(req, res, next) {
+
   
 
-  res.render('lobby', { username:req.session.passport.user,
-                        message:'logged in',
-                        wins:res.locals.user.wins,
-                        losses:res.locals.user.losses,
-                        ties: res.locals.user.ties });
+  User.wins_desc()
+    .then( users => {
+      leaderboard = {
+        heading: 'Leaderboards',
+        users
+      };
+      res.render('lobby', {
+        username:req.session.passport.user,
+        message:'logged in', wins:res.locals.user.wins,
+        losses:res.locals.user.losses,
+        ties: res.locals.user.ties,
+        leaderboard
+      });
+    })
+
 });
-
-
 
 
 module.exports = router;

@@ -1,9 +1,20 @@
-table
-  for game in games
-    tr
-      td Game Id #{game.gameID}
-      td Name #{game.gameRoomName}
-      td Current Players = #{game.current_players}
-      td Max Players = #{game.max_players}
-      td
-        button.inlineblock(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") join game
+div.container-fluid
+  h3.card-title Available Gamerooms
+  .card-block
+    table.table
+      thead
+        tr
+          th Game Id
+          th Name
+          th Current Players
+          th Max Players
+          th
+      tbody
+        for game in games
+          tr
+            th(scope="row") #{game.gameID}
+            td #{game.gameRoomName}
+            td #{game.current_players}
+            td #{game.max_players}
+            td
+              button.btn.btn-secondary(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") join game
