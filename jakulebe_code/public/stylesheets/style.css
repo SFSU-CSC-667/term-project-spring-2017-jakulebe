@@ -7,8 +7,496 @@ a {
   color: #00B7FF;
 }
 
+/*CARDS related Styles*/
+.card_back{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -158px 123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card1C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) 0px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card2C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -79px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card3C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -158px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card4C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -237px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card5C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -316px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card6C{
+    border: 1px solid black;
+    border-radius: 3px;
+    background: url(../img/cards_sprite.png) -395px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card7C{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -474px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card8C{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -553px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card9C{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -632px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card10C{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -711px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardJC{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -790px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardQC{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -869px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardKC{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -948px 0px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card1D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) 0px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card2D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -79px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card3D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -158px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card4D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -237px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card5D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -316px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card6D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -395px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card7D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -474px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card8D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -553px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card9D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -632px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card10D{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -711px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardJD{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -790px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardQD{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -869px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardKD{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -948px -123px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+
+#card1H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) 0px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card2H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -79px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card3H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -158px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card4H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -237px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card5H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -316px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card6H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -395px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card7H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -474px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card8H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -553px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card9H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -632px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card10H{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -711px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardJH{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -790px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardQH{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -869px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardKH{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -948px -246px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+
+#card1S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) 0px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card2S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -79px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card3S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -158px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card4S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -237px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card5S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -316px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card6S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -395px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card7S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -474px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card8S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -553px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card9S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -632px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#card10S{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -711px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardJS{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -790px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardQS{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -869px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+#cardKS{
+  border: 1px solid black;
+  border-radius: 3px;
+    background: url(../img/cards_sprite.png) -948px -369px;
+    display: inline-block;
+    width: 79px;
+    height: 123px;
+}
+
+
+/* login and register screen styles */
+
+#error-label{
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: red;
+}
+.top-bottom-padding{
+  padding-top: 8px;
+  padding-bottom: 5px;
+  float: right;
+  font-size: 16px;
+}
+
+div.center-align{
+  align:center;
+  margin: 0 auto;
+}
+
+img.login-register-image{
+  width: 100%;
+}
+
+.draw-border{
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.draw-border-chat{
+  border: 1px solid grey;
+  border-radius: 2px;
+  background-color: rgba(20,20,10,0.15);
+}
+
+.draw-border-red{
+  border: 2px solid red;
+  border-radius: 40px;
+  background-color: rgba(255,0,0,0.2);
+}
+
+.draw-border-blue{
+  border: 2px solid blue;
+  border-radius: 4px;
+  background-color: rgba(0,0,255,0.1);
+}
+
+.draw-border-green{
+  border: 2px solid green;
+  border-radius: 4px;
+  background-color: rgba(0,255,0,0.1);
+}
+
+h2.screen-title{
+  text-align: center;
+  font-weight: bold;
+}
+
+
 #chat-area {
-  
+
 }
 
 .messages {
@@ -39,3 +527,7 @@ span.user {
   padding-right: 8px;
   font-weight: bold;
 }
+
+/*table, th, td {
+   border: 1px solid black;
+}*/

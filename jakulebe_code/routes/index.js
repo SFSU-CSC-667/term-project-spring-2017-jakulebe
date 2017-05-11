@@ -14,8 +14,8 @@ router.post('/goToLogin', function(req, res, next){
   res.redirect('/login');
 })
 
-router.post('/goToGameRoom', function(req, res, next){
-  res.redirect('/gameroom');
+router.post('/backToLobby', function(req, res, next){
+  res.redirect('/lobby');
 })
 
 

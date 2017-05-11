@@ -1,0 +1,20 @@
+div.container-fluid
+  h3.card-title Available Gamerooms
+  .card-block
+    table.table
+      thead
+        tr
+          th Game Id
+          th Name
+          th Current Players
+          th Max Players
+          th
+      tbody
+        for game in games
+          tr
+            th(scope="row") #{game.gameID}
+            td #{game.gameRoomName}
+            td #{game.current_players}
+            td #{game.max_players}
+            td
+              button.btn.btn-secondary(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") join game

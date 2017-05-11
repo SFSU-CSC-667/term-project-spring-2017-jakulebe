@@ -1,21 +1,54 @@
 extends layout
 
 block content
-  h1= username
-  h2= message
-  p Current record #{wins} - #{losses} - #{ties}
-  block content
-  include chat.pug
-  input#name.form-control(type="hidden", name="name", value=username)
-  br
-  br
-  br
-  block content
-  .container
-    .row.form-group.col-sm-12.center
-      form.col-sm-6(action="/goToGameRoom" method="post")
-        button.form-control.buttonstyle.whitetext(type="submit") Join Game
-  .container
-    .row.form-group.col-sm-12.center
-      form.col-sm-6(action="/lobby/logOut" method="post")
-          button.form-control.buttonstyle.whitetext(type="submit") Log Out
+  .row
+    .col-sm-12.well
+      .col-sm-9
+        h3(style="padding:5px;margin:0px;") Welcome, #{username}!
+      form.col-sm-3(action="/lobby/logOut" method="post")
+        button.form-control.btn.btn-info.whitetext(type="submit") Log Out
+  .row.draw-border
+    .col-lg-3.well
+      img.img-thumbnail(src="../img/go-fish.jpg" alt="app logo")
+      p Current record #{wins} - #{losses} - #{ties}
+      h3= leaderboard.heading
+      table.table.table-responsive
+        thead.thead-inverse
+          tr
+            th Name
+            th Won
+            th Lost
+            th Draw
+        tbody
+          each user in leaderboard.users
+            tr
+              th(scope="row")= user.username || "unknown"
+              td= user.wins || 0
+              td= user.losses || 0
+              td= user.ties || 0
+      br
+      br
+
+    .col-lg-6.card
+      .row.draw-border.well-sm
+        .form-group.col-sm-12
+          .row
+            h4.col-sm-12
+              span.badge Create New gameroom
+          form.row(action="/lobby/createGameRoom" method="post")
+            .col-sm-12
+              .input-group
+                input.form-control(type="text",name="gameRoomName", placeholder='Enter game name')
+                span.input-group-btn
+                  button.btn.btn-primary(type="submit") Create Game
+      br
+      include gameRooms.pug
+      br
+      br
+      block content
+    .col-lg-3.draw-border-chat
+      block content
+      include chat.pug
+      input#name.form-control(type="hidden", name="name", value=username)
+      br
+      br

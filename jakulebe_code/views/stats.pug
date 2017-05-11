@@ -1,0 +1,21 @@
+doctype
+html
+  head
+    title= leaderboard.title
+  body
+    h2= leaderboard.heading
+
+    table
+      thead
+        tr
+          th name
+          th wins
+          th losses
+          th ties
+      tbody
+        each user in leaderboard.users
+          tr
+            td= user.username || "unknown"
+            td= user.wins || 0
+            td= user.losses || 0
+            td= user.ties || 0

@@ -1,23 +1,29 @@
 extends layout
 
 block content
-  h1= message
-  .container
-  form.col-sm-6(action="/register/registerUser" method="post")
-    .row.form-group.col-sm-12.center
-      label.formhead
-        u Register
-    .row.form-group.col-sm-12
-      .col-sm-3
-        label.col-form-label Username:
-      .col-sm-9
-        input.form-control(type="text" name="username")
-    .row.form-group.col-sm-12
-      .col-sm-3
-        label.col-form-label Password:
-      .col-sm-9
-        input.form-control(type="password" name="password")
-    .row.form-group.col-sm-12
-      .col-sm-3
-      .col-sm-9
-        button.form-control.buttonstyle.whitetext(type="submit") Register
+  .row
+    .col-sm-2
+    .container.col-sm-8.center-align
+      form.col-sm-12(action="/register/registerUser" method="post").draw-border-green
+        .row.com-sm-12
+          img(src="../img/go-fish.jpg" alt="app logo").login-register-image
+        .row.form-group.col-sm-12.center
+            h2.formhead.screen-title REGISTER
+        .row.form-group.col-sm-12
+          .col-sm-3
+            label.col-form-label.top-bottom-padding Username:
+          .col-sm-9
+            input.form-control(type="text" name="username")
+        .row.form-group.col-sm-12
+          .col-sm-3
+            label.col-form-label.top-bottom-padding Password:
+          .col-sm-9
+            input.form-control(type="password" name="password")
+        .row.form-group.col-sm-12
+          .col-sm-3
+            if(message)
+              div.row.com-sm-12.draw-border-red
+                h5#error-label.error-label Username taken
+          .col-sm-9
+            button.form-control.btn.btn-success.whitetext(type="submit") REGISTER
+    .col-sm-2

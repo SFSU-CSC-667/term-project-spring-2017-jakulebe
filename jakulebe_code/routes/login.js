@@ -11,8 +11,12 @@ router.get('/', function(req, res) {
   res.render('login');
 });
 
+router.get('/loginError', function(req, res) {
+  res.render('login',{error:true});
+});
+
 router.post('/loginUser', passport.authenticate('local',
-  {successRedirect: '/lobby', failureRedirect:'/'})
+  {successRedirect: '/lobby', failureRedirect:'/login/loginError'})
 );
 
 
