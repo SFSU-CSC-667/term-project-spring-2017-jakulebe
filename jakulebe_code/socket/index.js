@@ -21,14 +21,19 @@ const init = ( app, server ) => {
     socket.on( MESSAGE_SEND, data => io.emit( MESSAGE_SEND, data ))
 
 
-    socket.on('JOIN_GAME', initializeGameSocket)
+    socket.on('JOIN_GAME', initializeGameSockets)
 
 
 
-    function initializeGameSocket(userPackage){
+    function initializeGameSockets(userPackage){
         console.log("joining game: ", userPackage.gameID);
+        console.log("player channel: ", userPackage.playerChannel);
+
         socket.join(userPackage.gameID);
+        socket.join(userPackage.playerChannel);
+
         io.sockets.in(userPackage.gameID).emit('TEST', userPackage );
+        io.sockets.in(userPackage.playerChannel).emit('PLAYER_TEST', userPackage);
         }
 
     })
