@@ -46,12 +46,12 @@ router.post('/logOut',function(req,res){
   res.redirect('/');
 });
 
-function getListOfGames(req, res, next){
-  const gameListQuery = `select * from Games`;
-  const games = [];
+function getListOfGamesToJoin(req, res, next){
+  const gameListQuery = `select * from Games WHERE game_id IN (SELECT game_id FROM Players WHERE player_id != $1)`;
+  const gamesToJoin = [];
   var gameIndex = 0;
 
-  database.any(gameListQuery)
+  database.any(gameListQuery, [res.locals.user.playerID])
     .then(function(data){
       if (data != null && data.length > 0)
       {
@@ -64,12 +64,12 @@ function getListOfGames(req, res, next){
             gameRoom.gameRoomName = data[index].game_room_name;
             gameRoom.current_players = data[index].current_players;
             gameRoom.max_players = data[index].max_players;
-            games[gameIndex] = gameRoom;
+            gamesToJoin[gameIndex] = gameRoom;
             gameIndex++;
           }
         }
       }
-      res.locals.games = games;
+      res.locals.gamesToJoin = gamesToJoin;
       next();
     })
     .catch(function(error) {
@@ -78,7 +78,40 @@ function getListOfGames(req, res, next){
 })
 }
 
-router.use(getListOfGames);
+function getListOfGamesCurrentlyIn(req, res, next){
+  const gameListQuery = `select * from Games WHERE game_id IN (SELECT game_id FROM Players WHERE player_id = $1)`;
+  const gamesCurrentlyIn = [];
+  var gameIndex = 0;
+
+  database.any(gameListQuery, [res.locals.user.playerID])
+    .then(function(data){
+      if (data != null && data.length > 0)
+      {
+        for (var index = 0; index < data.length; index++)
+        {
+          if (data[index].current_players != data[index].max_players)
+          {
+            var gameRoom = new Object();
+            gameRoom.gameID = data[index].game_id;
+            gameRoom.gameRoomName = data[index].game_room_name;
+            gameRoom.current_players = data[index].current_players;
+            gameRoom.max_players = data[index].max_players;
+            gamesCurrentlyIn[gameIndex] = gameRoom;
+            gameIndex++;
+          }
+        }
+      }
+      res.locals.gamesCurrentlyIn = gamesCurrentlyIn;
+      next();
+    })
+    .catch(function(error) {
+             console.log("ERROR:",error);
+             return res.send(error);
+})
+}
+
+router.use(getListOfGamesToJoin);
+router.use(getListOfGamesCurrentlyIn);
 
 //gets the player number based on how many players are in game attempting to join
 router.get('/joinGame', function getPlayerNumber(req, res, next){
@@ -251,7 +284,7 @@ router.post('/createGameRoom', function(req, res, next){
 
 router.get('/', function(req, res, next) {
 
-  
+
 
   User.wins_desc()
     .then( users => {
