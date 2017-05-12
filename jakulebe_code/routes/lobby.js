@@ -47,7 +47,7 @@ router.post('/logOut',function(req,res){
 });
 
 function getListOfGamesToJoin(req, res, next){
-  const gameListQuery = `select * from Games WHERE game_id IN (SELECT game_id FROM Players WHERE player_id != $1)`;
+  const gameListQuery = `select * from Games WHERE game_id NOT IN (SELECT game_id FROM Players WHERE player_id = $1)`;
   const gamesToJoin = [];
   var gameIndex = 0;
 
@@ -75,7 +75,7 @@ function getListOfGamesToJoin(req, res, next){
     .catch(function(error) {
              console.log("ERROR:",error);
              return res.send(error);
-})
+    })
 }
 
 function getListOfGamesCurrentlyIn(req, res, next){
@@ -107,7 +107,7 @@ function getListOfGamesCurrentlyIn(req, res, next){
     .catch(function(error) {
              console.log("ERROR:",error);
              return res.send(error);
-})
+    })
 }
 
 router.use(getListOfGamesToJoin);
@@ -140,7 +140,6 @@ router.get('/joinGame', function getPlayerNumber(req, res, next){
 router.get('/joinGame', function(req, res, next){
   const gameID = parseInt(res.locals.gameID);
   const playerID = res.locals.user.playerID;
-
   const addPlayerToGameQuery = `INSERT INTO Players(game_id, player_id, player_number) VALUES($1, $2, $3)`;
 
   database.none(addPlayerToGameQuery, [gameID, playerID, res.locals.player_number])
