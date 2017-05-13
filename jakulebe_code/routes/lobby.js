@@ -89,16 +89,13 @@ function getListOfGamesCurrentlyIn(req, res, next){
       {
         for (var index = 0; index < data.length; index++)
         {
-          if (data[index].current_players != data[index].max_players)
-          {
-            var gameRoom = new Object();
-            gameRoom.gameID = data[index].game_id;
-            gameRoom.gameRoomName = data[index].game_room_name;
-            gameRoom.current_players = data[index].current_players;
-            gameRoom.max_players = data[index].max_players;
-            gamesCurrentlyIn[gameIndex] = gameRoom;
-            gameIndex++;
-          }
+          var gameRoom = new Object();
+          gameRoom.gameID = data[index].game_id;
+          gameRoom.gameRoomName = data[index].game_room_name;
+          gameRoom.current_players = data[index].current_players;
+          gameRoom.max_players = data[index].max_players;
+          gamesCurrentlyIn[gameIndex] = gameRoom;
+          gameIndex++;
         }
       }
       res.locals.gamesCurrentlyIn = gamesCurrentlyIn;
