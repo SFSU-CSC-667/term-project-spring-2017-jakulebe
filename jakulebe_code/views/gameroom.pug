@@ -9,7 +9,15 @@ block content
     .message
     br
     .playerMessage
+    br
+    .startGameMessage
+    br
+    .hand
   block content
+  #startGame
+    .input-group
+      span.input-group-btn
+        button.btn.btn-success(type='button') Start Game
 
   table
     for player in players

@@ -24,3 +24,28 @@ socket.on('TEST', function(userPackage){
 socket.on('PLAYER_TEST', function(userPackage){
   $( '.playerMessage').text(`this message is for ${userPackage.username} only`);
 })
+
+socket.on('SEND_CARDS', function(cardTestString){
+  $( '.hand').text(cardTestString)
+})
+
+$( document ).ready( () => {
+
+  $( '#startGame' ).hide()
+
+  socket.on('START_GAME_BUTTON', function(userPackage){
+    $( '#startGame').show()
+  })
+
+  $( '#startGame button' ).click( event => {
+    $( '#startGame').hide()
+    socket.emit('START_GAME', userPackage);
+
+
+  })
+
+
+
+
+
+})
