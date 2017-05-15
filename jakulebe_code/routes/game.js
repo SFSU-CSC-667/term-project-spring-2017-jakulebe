@@ -184,7 +184,7 @@ function dealCards(req, res, next){
         ]);
       })
     }
-
+    res.locals.readyToDealFlag = 0;
     next();
   } else {
     console.log("not ready to deal");
