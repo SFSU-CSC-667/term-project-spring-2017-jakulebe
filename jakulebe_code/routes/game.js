@@ -4,17 +4,12 @@ var {
     database
 } = require('../database/database');
 
-
-//this is barebones right now, mainly pulling the name of the game from db to display
 router.use(function getGameInfo(req, res, next) {
     const gameID = parseInt(req.query.gameID);
-    console.log("calling game functions");
     res.locals.gameID = gameID;
-    console.log("gameID = ", gameID);
     const getGameInfoQuery = `select * from Games where game_id = $1`;
     database.oneOrNone(getGameInfoQuery, [gameID])
         .then(function(data) {
-            console.log("running query");
             res.locals.gameRoomName = data.game_room_name;
             res.locals.gameID = data.game_id;
             res.locals.max_players = data.max_players;
@@ -26,9 +21,6 @@ router.use(function getGameInfo(req, res, next) {
             return res.send(error);
         });
 });
-
-
-
 
 function getPlayersInfo(req, res, next) {
     const gameID = parseInt(req.query.gameID);
@@ -55,7 +47,6 @@ router.use(getPlayersInfo);
 
 function getPlayerIDByPlayerName(req, res, next) {
     const playerName = req.session.passport.user;
-
     const playerIDQuery = `SELECT player_id FROM registeredUsers WHERE username = $1`;
 
     database.oneOrNone(playerIDQuery, [playerName])
@@ -72,13 +63,9 @@ function getPlayerIDByPlayerName(req, res, next) {
 
 router.use(getPlayerIDByPlayerName);
 
-
 function checkIfGameFull(req, res, next) {
     const gameID = res.locals.gameID;
-    console.log("check if game full function, gameid = ", gameID);
-
     const gameQuery = `SELECT * FROM Games WHERE game_id = $1`;
-
     database.oneOrNone(gameQuery, [gameID])
         .then(function(data) {
             if (data.max_players == data.current_players) {
@@ -95,19 +82,13 @@ function checkIfGameFull(req, res, next) {
             console.log("ERROR:", error);
             return res.send(error);
         });
-
-    //next();
 }
-
-
-
 
 router.use(checkIfGameFull);
 
 function getPlayerNumber(req, res, next) {
     const playerID = res.locals.playerID;
     const gameID = res.locals.gameID;
-
     const getPlayerNumberQuery = `SELECT player_number FROM players WHERE game_id = $1
                                 AND player_id = $2`;
     database.oneOrNone(getPlayerNumberQuery, [gameID, playerID])
@@ -145,16 +126,10 @@ function getPlayerIDNumbers(req, res, next) {
                 console.log("ERROR:", error);
                 return res.send(error);
             });
-        //console.log('player 1 = ', playerIDNumbers[1]);
-        //console.log('player 2 = ', playerIDNumbers[2]);
-
-        //next();
     } else {
         res.locals.readyToDealFlag = 0;
         next();
     }
-
-    //next();
 }
 
 router.use(getPlayerIDNumbers);
@@ -165,11 +140,6 @@ function dealCards(req, res, next) {
         const gameID = res.locals.gameID;
         var playerIDNumbers = [];
         playerIDNumbers = res.locals.playerIDNumbers;
-        console.log('ready to deal');
-        console.log('max players = ', maxPlayers);
-        console.log('gameID = ', gameID);
-
-
         const dealCardQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
                             (SELECT card_id FROM cards_in_play WHERE game_id = $2
                               AND player_id = -1 ORDER BY random() LIMIT 7)`;
@@ -202,20 +172,16 @@ function dealCards(req, res, next) {
                 ]);
             })
         }
-        //res.locals.readyToDealFlag = 0;
-        //res.locals.gameFullFlag = 0;
         next();
     } else {
         console.log("not ready to deal");
         next();
     }
-    //next();
 }
 
 router.use(dealCards);
 
 router.get('/', function(req, res, next) {
-    //console.log('Game Full Flag = ', res.locals.gameFullFlag);
     res.render('gameroom', {
         username: req.session.passport.user,
         gameID: res.locals.gameID,

@@ -111,7 +111,6 @@ function getListOfGamesCurrentlyIn(req, res, next) {
 
 router.use(getListOfGamesCurrentlyIn);
 
-//gets the player number based on how many players are in game attempting to join
 router.get('/joinGame', function getPlayerNumber(req, res, next) {
     const gameID = parseInt(req.query.gameID);
     res.locals.gameID = gameID;
@@ -197,7 +196,6 @@ function loadCardsFromDeck(req, res, next) {
 
 function shuffle(array) {
     for (let i = array.length; i; i--) {
-
         let j = Math.floor(Math.random() * i);
         [array[i - 1], array[j]] = [array[j], array[i - 1]];
     }
