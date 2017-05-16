@@ -1,26 +1,16 @@
 const socketIo = require( 'socket.io' )
 var {database} = require('../database/database');
 const { USER_JOINED, MESSAGE_SEND } = require( '../src/constants/events' )
+const {GAME_FULL_QUERY,
+      GET_PLAYER_CARDS_BY_PLAYER_ID_QUERY,
+      GO_FISH_QUERY,
+      GET_CARDS_LEFT_IN_DECK_QUERY,
+      FIND_BOOKS_IN_HAND_QUERY,
+      MOVE_BOOK_OUT_OF_HAND_QUERY,
+      CHECK_FOR_REQUESTED_CARDS_QUERY,
+      MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY} = require( '../src/constants/DBConstants' )
 
 
-const getPlayerCardsByPlayerIDQuery = `SELECT * FROM cards_in_play WHERE game_id = $1 AND player_id = $2`;
-const goFishQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
-                     (SELECT card_id FROM cards_in_play WHERE game_id = $2
-                      AND player_id = -1 ORDER BY random() LIMIT 1)`;
-
-const getCardsLeftInDeckQuery = `SELECT count(*) FROM cards_in_play WHERE game_id = $1 AND player_id = -1`;
-
-const findBooksInHandQuery = `SELECT value, count(value) FROM cards_in_play WHERE game_id = $1
-                              AND player_id = $2 GROUP BY value HAVING count(value) = 4`;
-
-//if books are found, set player_id of books to -2;
-const moveBookOutOfHandQuery = `UPDATE cards_in_play SET player_id = -2 WHERE card_id IN
-                                (SELECT card_id FROM cards_in_play WHERE game_id = $1
-                                AND player_id = $2 AND value = $3)`;
-
-//Query to see if target player has desired cards
-const checkForRequestedCardsQuery = `SELECT * FROM cards_in_play WHERE player_id = $1
-                                    AND game_id = $2 AND value = $3`;
 
 const init = ( app, server ) => {
   const io = socketIo( server )
@@ -29,18 +19,19 @@ const init = ( app, server ) => {
 
 
 
-  io.on( 'connection', socket => {
+  io.on( 'connection', socket => { //Global socket connection
     console.log( 'client connected' )
 
-
+    //Global socket connection
     socket.on( 'disconnect', data => {
       console.log( 'client disconnected' )
     })
 
+    //LOBBY CHAT
     socket.on( USER_JOINED, data => io.emit( USER_JOINED, data ))
     socket.on( MESSAGE_SEND, data => io.emit( MESSAGE_SEND, data ))
 
-
+    //GAMEROOM SOCKETS
     socket.on('JOIN_GAME', initializeGameSockets)
 
     socket.on('START_GAME', function(userPackage){
@@ -60,12 +51,9 @@ const init = ( app, server ) => {
         io.sockets.in(userPackage.gameID).emit('TEST', userPackage );
         io.sockets.in(userPackage.playerChannel).emit('PLAYER_TEST', userPackage);
 
-        const gameFullQuery = `SELECT * FROM Games WHERE game_id = $1`;
-
-        database.oneOrNone(gameFullQuery, [userPackage.gameID])
+        database.oneOrNone(GAME_FULL_QUERY, [userPackage.gameID])
           .then(function(data){
             if (data.max_players == data.current_players){
-
               io.sockets.in(userPackage.gameID).emit('START_GAME_BUTTON', userPackage );
             }
           })
@@ -77,14 +65,13 @@ const init = ( app, server ) => {
     function getHand(userPackage){
 
       var hand = [];
-      //const getPlayerCardsByPlayerIDQuery = `SELECT * FROM cards_in_play WHERE game_id = $1 AND player_id = $2`;
-      database.any(getPlayerCardsByPlayerIDQuery, [userPackage.gameID, userPackage.playerID])
+      database.any(GET_PLAYER_CARDS_BY_PLAYER_ID_QUERY, [userPackage.gameID, userPackage.playerID])
         .then(function(data){
           for (var index = 0; index < data.length; index++){
             var card = new Object();
             card.card_id = data[index].card_id;
             card.card_name = data[index].card_name;
-            console.log("card = ", card.card_name);
+            //console.log("card = ", card.card_name);
             card.value = data[index].value;
             hand[index] = card;
           }
@@ -94,8 +81,10 @@ const init = ( app, server ) => {
           for (var index = 0; index < hand.length; index++){
             cardString += hand[index].card_name.toString();
             cardString += ' ';
-            console.log("card string = ", cardString);
+            //console.log("card string = ", cardString);
           }
+          //will normally send the array of cards to client and client will
+          //use that to process and display cards
           io.sockets.in(userPackage.playerChannel).emit('SEND_CARDS', cardString);
         })
         .catch(function(error) {
