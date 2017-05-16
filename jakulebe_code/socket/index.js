@@ -4,6 +4,23 @@ const { USER_JOINED, MESSAGE_SEND } = require( '../src/constants/events' )
 
 
 const getPlayerCardsByPlayerIDQuery = `SELECT * FROM cards_in_play WHERE game_id = $1 AND player_id = $2`;
+const goFishQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
+                     (SELECT card_id FROM cards_in_play WHERE game_id = $2
+                      AND player_id = -1 ORDER BY random() LIMIT 1)`;
+
+const getCardsLeftInDeckQuery = `SELECT count(*) FROM cards_in_play WHERE game_id = $1 AND player_id = -1`;
+
+const findBooksInHandQuery = `SELECT value, count(value) FROM cards_in_play WHERE game_id = $1
+                              AND player_id = $2 GROUP BY value HAVING count(value) = 4`;
+
+//if books are found, set player_id of books to -2;
+const moveBookOutOfHandQuery = `UPDATE cards_in_play SET player_id = -2 WHERE card_id IN
+                                (SELECT card_id FROM cards_in_play WHERE game_id = $1
+                                AND player_id = $2 AND value = $3)`;
+
+//Query to see if target player has desired cards
+const checkForRequestedCardsQuery = `SELECT * FROM cards_in_play WHERE player_id = $1
+                                    AND game_id = $2 AND value = $3`;
 
 const init = ( app, server ) => {
   const io = socketIo( server )
@@ -73,7 +90,7 @@ const init = ( app, server ) => {
           }
           userPackage.hand = hand;
           console.log("hand length = ", hand.length);
-          var cardString = 'cards = ';
+          var cardString = 'cards = '; //this is for testing purposes only
           for (var index = 0; index < hand.length; index++){
             cardString += hand[index].card_name.toString();
             cardString += ' ';
@@ -84,9 +101,11 @@ const init = ( app, server ) => {
         .catch(function(error) {
           console.log("ERROR:",error);
         });
-
     }
 
+    function goFish(userPackage){
+
+    }
 
 
     })
