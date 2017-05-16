@@ -11,6 +11,7 @@ const {
     GET_PLAYER_ID_BY_NAME_QUERY,
     GET_PLAYER_NUMBER_BY_ID_QUERY,
     GET_PLAYER_NUMBER_BY_NAME_QUERY,
+    GET_PLAYER_ID_BY_PLAYER_NUMBER_QUERY,
     GAME_FULL_QUERY,
     GET_PLAYER_CARDS_BY_PLAYER_ID_QUERY,
     GO_FISH_QUERY,
@@ -18,7 +19,9 @@ const {
     FIND_BOOKS_IN_HAND_QUERY,
     MOVE_BOOK_OUT_OF_HAND_QUERY,
     CHECK_FOR_REQUESTED_CARDS_QUERY,
-    MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY
+    MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY,
+    GET_PLAYER_TURN_QUERY,
+    ADD_PLAYER_CHANNEL_TO_PLAYERS_QUERY
 } = require('../src/constants/DBConstants')
 
 const init = (app, server) => {
@@ -38,11 +41,23 @@ const init = (app, server) => {
         socket.on(MESSAGE_SEND, data => io.emit(MESSAGE_SEND, data))
 
         //GAMEROOM SOCKETS
+
+        socket.on('GAME_USER_JOINED', function(data){
+          socket.join(data.gameID)
+          console.log("chat test ", data.gameID)
+          io.sockets.in(data.gameID).emit('GAME_USER_JOINED', data)
+        })
+
+        socket.on('GAME_MESSAGE_SEND', function(data){
+          io.sockets.in(data.gameID).emit('GAME_MESSAGE_SEND', data)
+        })
+
         socket.on('JOIN_GAME', initializeGameSockets)
 
         socket.on('START_GAME', function(userPackage) {
             io.sockets.in(userPackage.gameID).emit('STARTING_GAME', userPackage);
         })
+
 
         socket.on('GET_HAND', getHand)
 
@@ -52,6 +67,14 @@ const init = (app, server) => {
 
             socket.join(userPackage.gameID);
             socket.join(userPackage.playerChannel);
+
+            const dealCardQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
+                                    (SELECT card_id FROM cards_in_play WHERE game_id = $2
+                                      AND player_id = -1 ORDER BY random() LIMIT 7)`;
+            database.none(dealCardQuery, [userPackage.playerID, userPackage.gameID])
+
+            database.none(ADD_PLAYER_CHANNEL_TO_PLAYERS_QUERY, [userPackage.playerChannel, userPackage.playerID,
+                          userPackage.gameID])
 
             io.sockets.in(userPackage.gameID).emit('TEST', userPackage);
             io.sockets.in(userPackage.playerChannel).emit('PLAYER_TEST', userPackage);
@@ -66,6 +89,7 @@ const init = (app, server) => {
                     console.log("ERROR:", error);
                 });
         }
+
 
         function getHand(userPackage) {
             var hand = [];

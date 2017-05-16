@@ -16,7 +16,8 @@ CREATE TABLE Games (
   game_id SERIAL PRIMARY KEY,
   game_room_name VARCHAR(45) UNIQUE NOT NULL,
   max_players INTEGER,
-  current_players INTEGER DEFAULT 0
+  current_players INTEGER DEFAULT 0,
+  player_turn INTEGER DEFAULT 1
 );
 
 CREATE TABLE Players (
@@ -24,6 +25,7 @@ CREATE TABLE Players (
  player_id INTEGER REFERENCES registeredUsers(player_id),
  player_number INTEGER,
  books_count INTEGER DEFAULT 0,
+ player_channel VARCHAR(20) DEFAULT 'A',
  PRIMARY KEY (game_id,player_id)
 );
 

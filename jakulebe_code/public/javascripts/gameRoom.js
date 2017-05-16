@@ -10,6 +10,7 @@ userPackage.playerID = playerID;
 userPackage.username = username;
 userPackage.playerChannel = playerChannel;
 userPackage.playerNumber = playerNumber;
+userPackage.currentPlayerTurn = 1;
 
 var socket = io();
 
@@ -22,6 +23,8 @@ socket.on('TEST', function(userPackage) {
 socket.on('PLAYER_TEST', function(userPackage) {
     $('.playerMessage').text(`this message is for ${userPackage.username} only`);
 })
+
+
 
 socket.on('SEND_CARDS', function(cardString) {
     $('.hand').text(cardString);
@@ -43,5 +46,6 @@ $(document).ready(() => {
         $('#startGame').hide()
         $('.hand').text('game starting')
         socket.emit('GET_HAND', userPackage)
+        //socket.emit('DEAL_CARDS', userPackage)
     })
 })

@@ -8,6 +8,8 @@ const GET_PLAYER_NUMBER_BY_ID_QUERY = `SELECT player_number FROM players WHERE p
 const GET_PLAYER_NUMBER_BY_NAME_QUERY = `SELECT player_number FROM players WHERE username = $1
                                         AND game_id = $2`;
 
+const GET_PLAYER_ID_BY_PLAYER_NUMBER_QUERY = `SELECT player_id FROM players WHERE player_number = $1
+                                             AND player_number = $2`;
 
 const GAME_FULL_QUERY = `SELECT * FROM Games WHERE game_id = $1`;
 
@@ -37,10 +39,16 @@ const MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY = `UPDATE cards_in_play SET player_i
                                               card_id IN (SELECT card_id from cards_in_play WHERE
                                               game_id = $2 AND player_id = $3 AND value = $4)`;
 
+const GET_PLAYER_TURN_QUERY = `SELECT player_turn FROM games WHERE game_id = $1`;
+
+const ADD_PLAYER_CHANNEL_TO_PLAYERS_QUERY = `UPDATE players SET player_channel = $1 WHERE
+                                            player_id = $2 and game_id = $3`;
+
 module.exports = {GET_PLAYER_NAME_BY_ID_QUERY,
                   GET_PLAYER_ID_BY_NAME_QUERY,
                   GET_PLAYER_NUMBER_BY_ID_QUERY,
                   GET_PLAYER_NUMBER_BY_NAME_QUERY,
+                  GET_PLAYER_ID_BY_PLAYER_NUMBER_QUERY,
                   GAME_FULL_QUERY,
                   GET_PLAYER_CARDS_BY_PLAYER_ID_QUERY,
                   GO_FISH_QUERY,
@@ -48,4 +56,6 @@ module.exports = {GET_PLAYER_NAME_BY_ID_QUERY,
                   FIND_BOOKS_IN_HAND_QUERY,
                   MOVE_BOOK_OUT_OF_HAND_QUERY,
                   CHECK_FOR_REQUESTED_CARDS_QUERY,
-                  MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY}
+                  MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY,
+                  GET_PLAYER_TURN_QUERY,
+                  ADD_PLAYER_CHANNEL_TO_PLAYERS_QUERY}
