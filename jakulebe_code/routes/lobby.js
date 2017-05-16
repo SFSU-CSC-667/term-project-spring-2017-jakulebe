@@ -216,14 +216,21 @@ function shuffle(array){
 function shuffleCards(req, res, next){
     var deck = [];
     deck = res.locals.deck;
-    shuffle(deck);
-    res.locals.deck = deck;
+    for (let i = deck.length; i; i--) {
+
+          let j = Math.floor(Math.random() * i);
+          [deck[i - 1], deck[j]] = [deck[j], deck[i - 1]];
+      }
+    res.locals.shuffledDeck = deck;
+    for (var i = 0; i < deck.length; i++){
+      console.log(deck[i].card_name);
+    }
     next();
 }
 
 function insertCardsIntoCardsInPlay(req, res, next){
     var deck = [];
-    deck = res.locals.deck;
+    deck = res.locals.shuffledDeck;
     const gameID = res.locals.gameID;
     const player_id = -1;
 

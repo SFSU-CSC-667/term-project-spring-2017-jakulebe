@@ -23,6 +23,7 @@ CREATE TABLE Players (
  game_id INTEGER REFERENCES Games(game_id),
  player_id INTEGER REFERENCES registeredUsers(player_id),
  player_number INTEGER,
+ books_count INTEGER DEFAULT 0,
  PRIMARY KEY (game_id,player_id)
 );
 

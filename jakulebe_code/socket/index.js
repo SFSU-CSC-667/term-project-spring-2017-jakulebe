@@ -26,9 +26,12 @@ const init = ( app, server ) => {
 
     socket.on('JOIN_GAME', initializeGameSockets)
 
-    socket.on('START_GAME', sendCardData)
+    socket.on('START_GAME', function(userPackage){
 
+      io.sockets.in(userPackage.gameID).emit('STARTING_GAME', userPackage);
+    })
 
+    socket.on('GET_HAND', getHand)
 
     function initializeGameSockets(userPackage){
         console.log("joining game: ", userPackage.gameID);
@@ -45,42 +48,45 @@ const init = ( app, server ) => {
         database.oneOrNone(gameFullQuery, [userPackage.gameID])
           .then(function(data){
             if (data.max_players == data.current_players){
+
               io.sockets.in(userPackage.gameID).emit('START_GAME_BUTTON', userPackage );
             }
           })
           .catch(function(error) {
             console.log("ERROR:",error);
-
           });
         }
 
-    function sendCardData(userPackage){
-      //io.sockets.in(userPackage.gameID).emit('START_GAME', userPackage);
+    function getHand(userPackage){
 
-      var playerHand = [];
+      var hand = [];
+      //const getPlayerCardsByPlayerIDQuery = `SELECT * FROM cards_in_play WHERE game_id = $1 AND player_id = $2`;
       database.any(getPlayerCardsByPlayerIDQuery, [userPackage.gameID, userPackage.playerID])
         .then(function(data){
           for (var index = 0; index < data.length; index++){
             var card = new Object();
             card.card_id = data[index].card_id;
             card.card_name = data[index].card_name;
-            console.log('card = ',card.card_name);
+            console.log("card = ", card.card_name);
             card.value = data[index].value;
-            playerHand[index] = card;
+            hand[index] = card;
           }
-          var cardTestString = 'cards = ';
-          for (var i = 0; i < playerHand.length; i++){
-            cardTestString += playerHand[i].card_name;
-            cardTestString += ' ';
+          userPackage.hand = hand;
+          console.log("hand length = ", hand.length);
+          var cardString = 'cards = ';
+          for (var index = 0; index < hand.length; index++){
+            cardString += hand[index].card_name.toString();
+            cardString += ' ';
+            console.log("card string = ", cardString);
           }
-
-          io.sockets.in(userPackage.playerChannel).emit('SEND_CARDS', cardTestString);
+          io.sockets.in(userPackage.playerChannel).emit('SEND_CARDS', cardString);
         })
         .catch(function(error) {
           console.log("ERROR:",error);
-
         });
+
     }
+
 
 
     })

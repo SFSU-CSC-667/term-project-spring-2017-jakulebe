@@ -105,6 +105,26 @@ function checkIfGameFull(req, res, next){
 
 router.use(checkIfGameFull);
 
+function getPlayerNumber(req, res, next){
+  const playerID = res.locals.playerID;
+  const gameID = res.locals.gameID;
+
+  const getPlayerNumberQuery = `SELECT player_number FROM players WHERE game_id = $1
+                                AND player_id = $2`;
+  database.oneOrNone(getPlayerNumberQuery, [gameID, playerID])
+    .then(function(data){
+      res.locals.player_number = data.player_number;
+      console.log("player number query returns = ", res.locals.player_number);
+      next();
+    })
+    .catch(function(error) {
+      console.log("ERROR:",error);
+      return res.send(error);
+    });
+}
+
+router.use(getPlayerNumber);
+
 function getPlayerIDNumbers(req, res, next){
   if (res.locals.gameFullFlag){
     console.log("fetching player_id numbers");
@@ -154,7 +174,7 @@ function dealCards(req, res, next){
 
     const dealCardQuery = `UPDATE cards_in_play SET player_id = $1 WHERE card_id IN
                             (SELECT card_id FROM cards_in_play WHERE game_id = $2
-                              AND player_id = -1 LIMIT 7)`;
+                              AND player_id = -1 ORDER BY random() LIMIT 7)`;
     if (maxPlayers == 2){
       database.tx(t => {
         return t.batch([
@@ -184,7 +204,8 @@ function dealCards(req, res, next){
         ]);
       })
     }
-    res.locals.readyToDealFlag = 0;
+    //res.locals.readyToDealFlag = 0;
+    //res.locals.gameFullFlag = 0;
     next();
   } else {
     console.log("not ready to deal");
@@ -201,6 +222,7 @@ router.get('/', function(req, res, next) {
                           gameID: res.locals.gameID,
                           playerID: res.locals.playerID,
                           gameRoomName: res.locals.gameRoomName,
+                          playerNumber: res.locals.player_number,
                           players: res.locals.playersInGame});
 });
 
