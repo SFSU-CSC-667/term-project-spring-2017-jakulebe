@@ -1,11 +1,77 @@
 extends gameLayout
 
 block content
-  .container
-    form.col-sm-1(action="/backToLobby" method="post")
-      button.form-control.buttonstyle.whitetext(type="submit") Lobby
-  h1= gameRoomName
-  #socket
+  .nav.nav-tabs(style="background-color:#2e6da4;")
+    .nav-item.col-sm-1(style="padding:0px;")
+      img.card-img-top(src="../img/go-fish.jpg" alt="app logo" style="height:55px;")
+    .nav-item.col-sm-1
+      p.nav-title-style= gameRoomName
+    .nav-item.col-sm-9
+    .nav-item.col-sm-1
+      form.col-sm-1(action="/backToLobby" method="post" style="width:100px;padding:4px;margin:4px;")
+        button.form-control.buttonstyle.whitetext(type="submit") Lobby
+
+  .play-area.col-lg-7.draw-game-table
+    .row
+      .col-lg-5
+      .col-lg-2.show-player
+        .col-sm-3
+          img.card_back.animate_ttl
+        .col-sm-3
+          img.card_back.animate_ttr
+        .col-sm-3
+         img.card_back.animate_ttb
+      .col-lg-5
+
+    .row(style="height:223px;margin:0px;padding:0px;")
+      .col-sm-12
+        .row(style="height:50px;")
+      .col-sm-12(style="padding:0px;margin:0px;")
+        .col-sm-2.show-player
+          .col-sm-1
+            img.card_back.animate_ltt
+          .col-sm-1
+            img.card_back.animate_ltr
+          .col-sm-1
+           img.card_back.animate_ltb
+        .col-sm-3
+        .col-sm-2
+          .col-sm-12.card_back
+            img.card_back.animate_dtb
+        .col-sm-3
+        .col-sm-2(style="background: rgba(255,255,255,0.7) url('../img/player.png') no-repeat right top;background-size: 100%;")
+          .col-sm-1
+            img.card_back.animate_rtl
+          .col-sm-1
+            img.card_back.animate_rtt
+          .col-sm-1
+           img.card_back.animate_rtb
+      .col-sm-12
+        .row(style="height:50px;")
+    .row
+      .col-lg-5
+      .col-lg-2.show-player
+        .col-sm-1
+          img.card_back.animate_btl
+        .col-sm-1
+          img.card_back.animate_btt
+        .col-sm-1
+         img.card_back.animate_btr
+      .col-lg-5
+  .col-lg-2.draw-border-blue
+    table.table.draw-border
+      for player in players
+        tr
+          td Player: #{player}
+
+  .col-lg-3.draw-border-chat
+    block content
+    include chat.pug
+    input#name.form-control(type="hidden", name="name", value=username)
+    br
+
+  .row
+  #socket.draw-border
     .message
     br
     .playerMessage
@@ -13,14 +79,8 @@ block content
     .startGameMessage
     br
     .hand
-  block content
-  #startGame
-    .input-group
-      span.input-group-btn
-        button.btn.btn-success(type='button') Start Game
-
-  table
-    for player in players
-      tr
-        td Player: #{player}
-        td
+    block content
+    #startGame
+      .input-group
+        span.input-group-btn
+          button.btn.btn-success(type='button') Start Game

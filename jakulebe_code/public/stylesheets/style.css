@@ -1,6 +1,16 @@
+@font-face {
+    font-family: customFont;
+    src: url(Gasalt-Regular.ttf);
+}
+@font-face {
+    font-family: headerFont;
+    src: url(MotionControl-Bold.otf);
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family:motionControl;
+  padding-bottom: 50px;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
 }
 
 a {
@@ -338,7 +348,7 @@ a {
     width: 79px;
     height: 123px;
 }
-#card2S{
+#card3s{
   border: 1px solid black;
   border-radius: 3px;
     background: url(../img/cards_sprite.png) -79px -369px;
@@ -435,8 +445,16 @@ a {
     height: 123px;
 }
 
-
 /* login and register screen styles */
+.container-game-room{
+  margin: 0px 30px;
+  padding:0px 15px 20px;
+}
+
+.show-player{
+  background: rgba(255,255,255,0.7) url('../img/player.png') no-repeat right top;
+  background-size: 100%;
+}
 
 #error-label{
   text-align: center;
@@ -459,10 +477,22 @@ div.center-align{
 img.login-register-image{
   width: 100%;
 }
+.fixed-panel-chat-panel {
+  max-height: 480px;
+  overflow-y: scroll;
+  word-wrap: break-word;
+  word-break: normal;
+}
 
 .draw-border{
   border: 1px solid black;
   border-radius: 2px;
+}
+
+.draw-border-profile{
+  border: 1px solid black;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.05);
 }
 
 .draw-border-chat{
@@ -472,26 +502,86 @@ img.login-register-image{
 }
 
 .draw-border-red{
-  border: 2px solid red;
+  border: 1px solid rgb(217, 83, 79);
   border-radius: 40px;
-  background-color: rgba(255,0,0,0.2);
+  background-color: rgba(217, 83, 79,0.2);
 }
 
 .draw-border-blue{
-  border: 2px solid blue;
+  border: 1px solid #2e6da4;
   border-radius: 4px;
-  background-color: rgba(0,0,255,0.1);
+  background-color: rgba(46, 109, 164,0.1);
 }
 
 .draw-border-green{
-  border: 2px solid green;
+  border: 1px solid green;
   border-radius: 4px;
-  background-color: rgba(0,255,0,0.1);
+  background-color: rgba(92, 184, 92,0.1);
+}
+
+.draw-game-table{
+  border: 1px solid green;
+  border-radius: 400px;
+  background-color: rgb(92, 184, 92);
+}
+
+.play-area{
+
+}
+
+.nav-title-style{
+  color:white;
+  font-family: headerFont;
+  font-size:2.5em;
+  padding: 1px 20px;
+  margin:0px;
+  text-align:center;
+}
+
+.card-deck-home{
+  padding: 10px 0px 0px 0px;
+  margin: 20px 0px 10px 0px;
+}
+
+.card-home{
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.card-title-home{
+  font-family: headerFont;
+  font-size: 2.1em;
 }
 
 h2.screen-title{
   text-align: center;
   font-weight: bold;
+}
+
+span.badge{
+  border-radius: 2px;
+  margin: 2px;
+  padding: 4px;
+}
+
+span.badge.wins{
+  width: 40%;
+  border: 1px solid green;
+  background-color: rgba(92, 184, 92,0.9);
+}
+
+span.badge.losses{
+  width: 40%;
+  border: 1px solid red;
+  background-color: rgba(217, 83, 79,0.9);
+}
+
+span.badge.ties{
+  width: 40%;
+  border: 1px solid rgb(240, 173, 78);
+  background-color: rgba(240, 173, 78,0.9);
 }
 
 
@@ -528,6 +618,226 @@ span.user {
   font-weight: bold;
 }
 
-/*table, th, td {
-   border: 1px solid black;
-}*/
+table, th, td {
+   vertical-align: middle;
+}
+
+/* animations and transitions */
+@keyframes animate_ltt {
+  	0%   { left:-100px; top:0px;}
+    50%  { left:300px; top:0px; }
+    100% { left:300px; top:-250px;}
+}
+
+@keyframes animate_ltr {
+  	0%   { left:-100px; top:0px;}
+    50%  { left:300px; top:0px; }
+    100% { left:700px; top:0px;}
+}
+
+@keyframes animate_ltb {
+    0%   { left:-100px; top:0px;}
+    50%  { left:300px; top:0px; }
+    100% { left:300px; top:250px;}
+}
+
+@keyframes animate_ttl {
+  	0%   { left:0px; top:-200px;}
+    50%  { left:0px; top:150px; }
+    100% { left:-400px; top:150px;}
+}
+
+@keyframes animate_ttr {
+  	0%   { left:0px; top:-200px;}
+    50%  { left:0px; top:150px; }
+    100% { left:350px; top:150px;}
+}
+
+@keyframes animate_ttb {
+    0%   { left:0px; top:-200px;}
+    50%  { left:0px; top:150px; }
+    100% { left:0px; top:400px;}
+}
+
+@keyframes animate_rtl {
+  	0%   { left:100px; top:0px;}
+    50%  { left:-300px; top:0px; }
+    100% { left:-700px; top:0px;}
+}
+
+@keyframes animate_rtt {
+  	0%   { left:100px; top:0px;}
+    50%  { left:-300px; top:0px; }
+    100% { left:-300px; top:-250px;}
+}
+
+@keyframes animate_rtb {
+    0%   { left:100px; top:0px;}
+    50%  { left:-300px; top:0px; }
+    100% { left:-300px; top:250px;}
+}
+
+@keyframes animate_btl {
+  	0%   { left:0px; top:200px;}
+    50%  { left:0px; top:-150px; }
+    100% { left:-350px; top:-150px;}
+}
+
+@keyframes animate_btt {
+    0%   { left:0px; top:200px;}
+    50%  { left:0px; top:-150px; }
+    100% { left:0px; top:-400px;}
+}
+
+@keyframes animate_btr {
+  	0%   { left:0px; top:200px;}
+    50%  { left:0px; top:-150px; }
+    100% { left:350px; top:-150px;}
+}
+
+@keyframes animate_dtl {
+  	0%   { left:0px; top:0px;}
+    100% { left:-300px; top:0px;}
+}
+@keyframes animate_dtt {
+  	0%   { left:0px; top:0px;}
+    100% { left:0px; top:-150px;}
+}
+@keyframes animate_dtr {
+  	0%   { left:0px; top:0px;}
+    100% { left:300px; top:0px;}
+}
+@keyframes animate_dtb {
+  	0%   { left:0px; top:0px;}
+    100% { left:0px; top:150px;}
+}
+
+.animate_1_2_3 , .animate_2_1_3 , .animate_3_1_2 , .animate_4_1_2 , .animate_ltt {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 101;
+  left:-100px;
+  top:0px;
+  animation-name: animate_ltt;
+}
+.animate_1_2_4 , .animate_2_1_4 , .animate_3_1_4 , .animate_4_1_3 , .animate_ltr {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 102;
+  left:-100px;
+  top:0px;
+  animation-name: animate_ltr;
+}
+.animate_1_2_1 , .animate_2_1_2 , .animate_3_1_3 , .animate_4_1_4 , .animate_ltb {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 103;
+  left:-100px;
+  top:0px;
+  animation-name: animate_ltb;
+}
+.animate_1_3_2 , .animate_2_3_1 , .animate_3_2_1 , .animate_4_2_1 , .animate_ttl {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 101;
+  left:0px;
+  top:-100px;
+  animation-name: animate_ttl;
+}
+.animate_1_3_4 , .animate_2_3_4 , .animate_3_2_4 , .animate_4_2_3 , .animate_ttr {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 102;
+  left:0px;
+  top:-100px;
+  animation-name: animate_ttr;
+}
+.animate_1_3_1 , .animate_2_3_2 , .animate_3_2_3 , .animate_4_2_4 , .animate_ttb {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 103;
+  left:0px;
+  top:-100px;
+  animation-name: animate_ttb;
+}
+.animate_1_4_2 , .animate_2_4_1 , .animate_3_4_1 , .animate_4_3_1 , .animate_rtl {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 101;
+  left:100px;
+  top:0px;
+  animation-name: animate_rtl;
+}
+.animate_1_4_3 , .animate_2_4_3 , .animate_3_4_2 , .animate_4_3_2 , .animate_rtt {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 102;
+  left:100px;
+  top:0px;
+  animation-name: animate_rtt;
+}
+.animate_1_4_1 , .animate_2_4_2 , .animate_3_4_3 , .animate_4_3_4 , .animate_rtb {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 103;
+  left:100px;
+  top:0px;
+  animation-name: animate_rtb;
+}
+.animate_1_1_2 , .animate_2_2_1 , .animate_3_3_1 , .animate_4_4_1 , .animate_btl {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 101;
+  left:0px;
+  top:100px;
+  animation-name: animate_btl;
+}
+.animate_1_1_3 , .animate_2_2_3 , .animate_3_3_2 , .animate_4_4_2 , .animate_btt {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 102;
+  left:0px;
+  top:100px;
+  animation-name: animate_btt;
+}
+.animate_1_1_4 , .animate_2_2_4 , .animate_3_3_4 , .animate_4_4_3 , .animate_btr {
+  position: relative;
+  animation-duration: 3s;
+  z-index: 103;
+  left:0px;
+  top:100px;
+  animation-name: animate_btr;
+}
+
+.animate_deck_1_2 , .animate_deck_2_1 , .animate_deck_3_1 , .animate_deck_4_1 , .animate_dtl{
+  position: relative;
+  animation-duration: 2s;
+  z-index: 104;
+  left:0px;
+  top:0px;
+  animation-name: animate_dtl;
+}
+.animate_deck_1_3 , .animate_deck_2_3 , .animate_deck_3_2 , .animate_deck_4_2 , .animate_dtt{
+  position: relative;
+  animation-duration: 2s;
+  z-index: 104;
+  left:0px;
+  top:0px;
+  animation-name: animate_dtt;
+}
+.animate_deck_1_4 , .animate_deck_2_4 , .animate_deck_3_4 , .animate_deck_4_3 , .animate_dtr{
+  position: relative;
+  animation-duration: 2s;
+  z-index: 104;
+  left:0px;
+  top:0px;
+  animation-name: animate_dtr;
+}
+.animate_deck_1_1 , .animate_deck_2_2 , .animate_deck_3_3 , .animate_deck_4_4 , .animate_dtb{
+  position: relative;
+  animation-duration: 2s;
+  z-index: 104;
+  left:0px;
+  top:0px;
+  animation-name: animate_dtb;
+}

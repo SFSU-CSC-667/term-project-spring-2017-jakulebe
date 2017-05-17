@@ -1,8 +1,26 @@
-extends nonLobbyLayout
+extends layout
 
 block content
   .row
-    .col-sm-2
+    .col-sm-2(style="padding:10px;")
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKC
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") JA
+            span n
+            br
+            span Joseph
+
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKH
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") LE
+            span vi
+            br
+            span Gemmell
+
     .container.col-sm-8.center-align
       form.col-sm-12(action="/register/registerUser" method="post").draw-border-green
         .row.com-sm-12
@@ -26,4 +44,19 @@ block content
                 h5#error-label.error-label Username taken
           .col-sm-9
             button.form-control.btn.btn-success.whitetext(type="submit") REGISTER
-    .col-sm-2
+    .col-sm-2(style="padding:10px;")
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKD
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") KU
+            span nal Tambekar
+
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKS
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") B
+            span r
+            span(style="font-weight:bolder; color:red;") E
+            span tt Nitschke

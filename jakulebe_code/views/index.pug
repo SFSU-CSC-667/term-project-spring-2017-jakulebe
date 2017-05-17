@@ -1,15 +1,60 @@
-extends nonLobbyLayout
+extends layout
 
 block content
   h1= message
   .container.draw-border
-    row.col-sm-8
+    .col-sm-8(style="padding: 0px;")
       img(src="../img/go-fish.jpg" alt="app logo").login-register-image
-    .row.form-group.col-sm-4
-      .row.form-group.col-sm-12.center
-        h2.formhead.col-sm-12.screen-title Log in
-        form.col-sm-12(action="/goToLogin" method="post")
+    .form-group.col-sm-4
+      .form-group.col-sm-12.center
+        h2.formhead.col-sm-12.screen-title(style = "font-family: headerFont;font-size:5em;") GO FISH
+        .row
+          .col-sm-6
+          h4.formhead.col-sm-6.screen-title - by JaKuLeBe
+        br
+        br
+        form.col-lg-12(action="/goToLogin" method="post")
           button.form-control.btn.btn-primary.whitetext(type="submit") Login
-      .row.form-group.col-sm-12.center
-        form.col-sm-12(action="/goToRegister" method="post")
+        .row.form-group.col-lg-12.center
+        form.col-lg-12(action="/goToRegister" method="post")
           button.form-control.btn.btn-success.whitetext(type="submit") Register
+
+  .row.card-deck-home
+    .col-lg-3
+      .card-home
+        .card-block-home
+          img#cardKC
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") JA
+            span n Joseph
+        //  p.card-text
+        //    | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+    .col-lg-3
+      .card-home
+        .card-block-home
+          img#cardKD
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") KU
+            span nal Tambekar
+        //  p.card-text
+        //    | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+    .col-lg-3
+      .card-home
+        .card-block-home
+          img#cardKH
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") LE
+            span vi Gemmell
+        //  p.card-text
+        //    | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+    .col-lg-3
+      .card-home
+        .card-block-home
+          img#cardKS
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") B
+            span r
+            span(style="font-weight:bolder; color:red;") E
+            span tt Nitschke
+        //  p.card-text
+        //    | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
