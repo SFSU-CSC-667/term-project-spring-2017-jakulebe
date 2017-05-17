@@ -13,10 +13,10 @@ html(lang='en')
       script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
 
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+  body.draw-border
 
 
-    .container
+    .container-game-room
       block content
 
     script(src='https://code.jquery.com/jquery-3.1.1.min.js', integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=', crossorigin='anonymous')
@@ -28,4 +28,3 @@ html(lang='en')
                                           playerID = playerID,
                                           username = username,
                                           playerNumber = playerNumber)
-    

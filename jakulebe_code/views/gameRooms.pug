@@ -1,40 +1,38 @@
 div.container-fluid
-  h3.card-title Available Gamerooms To Join
-  .card-block
-    table.table
-      thead
-        tr
-          th Game Id
-          th Name
-          th Current Players
-          th Max Players
-          th
-      tbody
-        for game in gamesToJoin
-          tr
-            th(scope="row") #{game.gameID}
-            td #{game.gameRoomName}
-            td #{game.current_players}
-            td #{game.max_players}
-            td
-              button.btn.btn-secondary(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") join game
+    if gamesCurrentlyIn.length >0
+      h3.card-title.text-success YOUR CURRENT GAME(S)
+      .card-block
+        table.table.draw-border-green
+          thead.thead-inverse(style="background-color:#5cb85c;")
+            tr
+              th.col-sm-6 GAMEROOM NAME
+              th.col-sm-2.text-center CURRENT<br/>PLAYERS
+              th.col-sm-2.text-center MAX<br/>PLAYERS
+              th.col-sm-2
+          tbody
+            for game in gamesCurrentlyIn
+              tr
+                th.col-sm-6(scope="row" style="word-break: break-all;") #{game.gameRoomName}
+                td.col-sm-2.text-center #{game.current_players}
+                td.col-sm-2.text-center #{game.max_players}
+                td.col-sm-2
+                  button.btn.btn-success(method="get" onclick="location.href='/game?gameID=" + game.gameID  + "'") Re-JOIN
 
-  h3.card-title Current Gamerooms
-  .card-block
-    table.table
-      thead
-        tr
-          th Game Id
-          th Name
-          th Current Players
-          th Max Players
-          th
-      tbody
-        for game in gamesCurrentlyIn
+
+    h3.card-title.text-primary AVAILABLE GAMEROOMS (OPEN)
+    .card-block
+      table.table.draw-border-blue
+        thead.thead-inverse(style="background-color:#337ab7;")
           tr
-            th(scope="row") #{game.gameID}
-            td #{game.gameRoomName}
-            td #{game.current_players}
-            td #{game.max_players}
-            td
-              button.btn.btn-secondary(method="get" onclick="location.href='/game?gameID=" + game.gameID  + "'") re-enter game
+            th.col-sm-6 GAMEROOM NAME
+            th.col-sm-2.text-center CURRENT<br/>PLAYERS
+            th.col-sm-2.text-center MAX<br/>PLAYERS
+            th.col-sm-2
+        tbody
+          for game in gamesToJoin
+            tr
+              th.col-sm-6(scope="row" style="word-break: break-all;") #{game.gameRoomName}
+              td.col-sm-2.text-center #{game.current_players}
+              td.col-sm-2.text-center #{game.max_players}
+              td.col-sm-2
+                button.btn.btn-primary(method="get" onclick="location.href='/lobby/joinGame?gameID=" + game.gameID  + "'") JOIN

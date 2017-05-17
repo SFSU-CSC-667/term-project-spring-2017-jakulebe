@@ -1,14 +1,32 @@
-extends nonLobbyLayout
+extends layout
 
 block content
   div.row
-    div.col-sm-2
+    .col-sm-2(style="padding:10px;")
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKC
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") JA
+            span n
+            br
+            span Joseph
+
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKH
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") LE
+            span vi
+            br
+            span Gemmell
+
     .container.col-sm-8.center-align
       form.col-sm-12(action="/login/loginUser" method="post").draw-border-blue
         .row.com-sm-12
           img(src="../img/go-fish.jpg" alt="app logo").login-register-image
         .row.form-group.col-sm-12.center
-          h2.formhead.screen-title Log in/ Register
+          h2.formhead.screen-title LOG IN
         .row.form-group.col-sm-12
           .col-sm-3
             label.col-form-label.top-bottom-padding Username:
@@ -26,4 +44,20 @@ block content
                 h5#error-label.error-label Invalid credentials
           .col-sm-9
             button.form-control.btn.btn-primary.whitetext(type="submit") LOGIN
-    .col-sm-2
+
+    .col-sm-2(style="padding:10px;")
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKD
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") KU
+            span nal Tambekar
+
+      .card-home(style="margin:10px;")
+        .card-block-home
+          img#cardKS
+          h4.card-title-home
+            span(style="font-weight:bolder; color:red;") B
+            span r
+            span(style="font-weight:bolder; color:red;") E
+            span tt Nitschke

@@ -8,21 +8,32 @@ block content
       form.col-sm-3(action="/lobby/logOut" method="post")
         button.form-control.btn.btn-info.whitetext(type="submit") Log Out
   .row.draw-border
-    .col-lg-3.well
-      img.img-thumbnail(src="../img/go-fish.jpg" alt="app logo")
-      p Current record #{wins} - #{losses} - #{ties}
-      h3= leaderboard.heading
-      table.table.table-responsive
-        thead.thead-inverse
+    .col-lg-3.h-100.well
+      .card.draw-border-profile
+        .row.text-center
+          img.card-img-top(src="../img/user_dp.png" alt="app logo" style="width:60%;height:60%;")
+        .card-block
+          h4.card-title.text-center PLAYER INFO
+          h5.text-center(style = "font-weight: bold;")
+            span.badge.wins WON : #{wins}
+            br
+            span.badge.losses LOST : #{losses}
+            br
+            span.badge.ties DRAW : #{ties}
+
+      .row
+      h3.text-warning= leaderboard.heading
+      table.table.table-responsive.draw-border-profile
+        thead(style="background-color:#777; color:#fff;")
           tr
-            th Name
-            th Won
-            th Lost
-            th Draw
+            th NAME
+            th WON
+            th LOST
+            th DRAW
         tbody
           each user in leaderboard.users
             tr
-              th(scope="row")= user.username || "unknown"
+              th(scope="row" style="word-break: break-all;")= user.username || "unknown"
               td= user.wins || 0
               td= user.losses || 0
               td= user.ties || 0
@@ -33,17 +44,19 @@ block content
       .row.draw-border.well-sm
         .form-group.col-sm-12
           .row
-            h4.col-sm-12
-              span.badge Create New gameroom
+            h4.col-sm-6
+              span.badge Create NEW gameroom
+            if gameMessage
+              h4.col-sm-6
+                span.badge(style="background-color:#dc3232;") #{gameMessage}
           form.row(action="/lobby/createGameRoom" method="post")
             .col-sm-12
               .input-group
                 input.form-control(type="text",name="gameRoomName", placeholder='Enter game name')
                 span.input-group-btn
                   button.btn.btn-primary(type="submit") Create Game
-      br
+
       include gameRooms.pug
-      br
       br
       block content
     .col-lg-3.draw-border-chat

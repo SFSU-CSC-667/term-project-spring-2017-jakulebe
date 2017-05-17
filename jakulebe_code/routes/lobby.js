@@ -278,7 +278,7 @@ router.get('/', function(req, res, next) {
     User.wins_desc()
         .then(users => {
             leaderboard = {
-                heading: 'Leaderboards',
+                heading: 'LEADERBOARD',
                 users
             };
             res.render('lobby', {
