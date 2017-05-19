@@ -27,7 +27,10 @@ socket.on('PLAYER_TEST', function(userPackage) {
 
 
 socket.on('SEND_CARDS', function(cardString) {
-    $('.hand').text(cardString);
+
+    $('.show-player > .col-sm-1 > img ').hide();
+
+
 })
 
 $(document).ready(() => {
