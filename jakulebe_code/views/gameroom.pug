@@ -48,6 +48,7 @@ block content
            img.card_back.animate_rtb.animate_1_4_1.animate_2_4_2.animate_3_4_3.animate_4_3_4
       .col-sm-12
         .row(style="height:50px;")
+          .message(style="text-align:center;background:transparent;")
     .row
       .col-lg-5
       .col-lg-2.show-player.p_1_1.p_2_2.p_3_3.p_4_4
@@ -62,9 +63,22 @@ block content
     table.table.draw-border(style="margin-top:10px;")
       thead.thead
         th Books Count
-      for player in players
-        tr
-          td Player #{player.player_number} : 0
+
+      
+
+      tr
+        td Player 1 :
+          span#bookCountP1 0
+      tr
+        td Player 2 :
+          span#bookCountP2 0
+      tr
+        td Player 3 :
+          span#bookCountP3 0
+      tr
+        td Player 4 :
+          span#bookCountP4 0
+
 
   .col-lg-3.draw-border-chat
     block content
