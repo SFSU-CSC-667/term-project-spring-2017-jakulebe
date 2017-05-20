@@ -1,8 +1,3 @@
-DROP DATABASE IF EXISTS jakulebe;
-CREATE DATABASE jakulebe;
-
-\c jakulebe;
-
 CREATE TABLE registeredUsers (
   player_id SERIAL PRIMARY KEY,
   username VARCHAR(45) UNIQUE NOT NULL,
