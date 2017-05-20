@@ -28,19 +28,13 @@ const init = (app, server) => {
     const io = socketIo(server)
     app.set('io', io)
 
-    io.on('connection', socket => { //Global socket connection
-        console.log('client connected')
-
-        //Global socket connection
+    io.on('connection', socket => {
         socket.on('disconnect', data => {
             console.log('client disconnected')
         })
 
-        //LOBBY CHAT
         socket.on(USER_JOINED, data => io.emit(USER_JOINED, data))
         socket.on(MESSAGE_SEND, data => io.emit(MESSAGE_SEND, data))
-
-        //GAMEROOM SOCKETS
 
         socket.on('GAME_USER_JOINED', function(data){
           socket.join(data.gameID)
@@ -58,7 +52,6 @@ const init = (app, server) => {
             io.sockets.in(userPackage.gameID).emit('STARTING_GAME', userPackage);
         })
 
-
         socket.on('GET_HAND', getHand)
 
         socket.on('REQUEST_CARD', requestCard)
@@ -70,9 +63,6 @@ const init = (app, server) => {
         socket.on('GET_TURN_STATUS', getTurnStatus)
 
         function initializeGameSockets(userPackage) {
-            console.log("joining game: ", userPackage.gameID);
-            console.log("player channel: ", userPackage.playerChannel);
-
             socket.join(userPackage.gameID);
             socket.join(userPackage.playerChannel);
 
@@ -98,7 +88,6 @@ const init = (app, server) => {
                 });
         }
 
-
         function getHand(userPackage) {
             var hand = [];
             database.any(GET_PLAYER_CARDS_BY_PLAYER_ID_QUERY, [userPackage.gameID, userPackage.playerID])
@@ -120,6 +109,7 @@ const init = (app, server) => {
                     console.log("ERROR:", error);
                 });
         }
+
         function requestCard(userPackage) {
             var rCard = userPackage.rCard;
             var rPlayer = userPackage.rPlayer;
@@ -165,8 +155,6 @@ const init = (app, server) => {
         function getTurnStatus(userPackage){
           io.sockets.in(userPackage.gameID).emit('SEND_TURN_STATUS', 'wee');
         }
-
-
     })
 }
 

@@ -140,8 +140,7 @@ router.get('/joinGame', function(req, res, next) {
             const updateCurrentPlayersQuery = `UPDATE Games SET current_players = current_players + 1 WHERE game_id = $1`;
             database.none(updateCurrentPlayersQuery, [gameID]);
         })
-        .catch(function(error) {});
-
+        .catch(function(error) {});s
     res.redirect(`/game?gameID=${gameID}`);
 });
 
@@ -179,7 +178,6 @@ function loadCardsFromDeck(req, res, next) {
                 for (var index = 0; index < data.length; index++) {
                     var card = new Object();
                     card.card_id = data[index].card_id;
-                    //console.log("card id = ", card.card_id);
                     card.card_name = data[index].card_name;
                     card.value = data[index].value;
                     deck[index] = card;
@@ -232,8 +230,7 @@ function insertCardsIntoCardsInPlay(req, res, next) {
 
         database.none(insertCardQuery, [card_id, card_name, value, gameID, player_id])
             .then(function() {
-                //console.log("card inserted: ", card_name);
-                //next();
+
             })
             .catch(function(error) {
                 console.log("Error: ", error);
@@ -255,9 +252,7 @@ router.use('/createGameRoom', function(req, res, next) {
     database.oneOrNone(createGameQuery, [gameRoomName, numberOfPlayers, current_players])
         .then(function(data) {
             res.locals.gameID = parseInt(data.game_id);
-
             next();
-            //res.redirect(`/lobby/joinGame?gameID=${gameID}`);
         })
         .catch(function(error) {
             console.log("ERROR:", error);
