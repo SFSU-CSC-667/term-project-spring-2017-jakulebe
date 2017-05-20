@@ -1,0 +1,25 @@
+block content
+
+ form.input-group.col-sm-12
+  span Request
+  select#playerRequestCard.btn.btn-secondary.dropdown-toggle(type='select', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+    option.dropdown-item(value=1 selected="selected") Ace
+    option.dropdown-item(value=2) Two
+    option.dropdown-item(value=3) Three
+    option.dropdown-item(value=5) Five
+    option.dropdown-item(value=4) Four
+    option.dropdown-item(value=6) Six
+    option.dropdown-item(value=7) Seven
+    option.dropdown-item(value=8) Eight
+    option.dropdown-item(value=9) Nine
+    option.dropdown-item(value=10) Ten
+    option.dropdown-item(value=11) Jack
+    option.dropdown-item(value=12) Queen
+    option.dropdown-item(value=13) King
+  span     from
+  select#playerRequestOpponent.btn.btn-secondary.dropdown-toggle(type='select', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+    for player in players
+      if(player.player_number!=playerNumber)
+        option.dropdown-item(value=player.player_number) Opponent #{player.player_number}
+
+  button#requestCard.btn.btn-primary(type='button') CONFIRM

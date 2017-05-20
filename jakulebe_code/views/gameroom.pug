@@ -14,55 +14,57 @@ block content
   .play-area.col-lg-7.draw-game-table
     .row
       .col-lg-5
-      .col-lg-2.show-player
+      .col-lg-2.show-player.p_1_3.p_2_3.p_3_2.p_4_2
         .col-sm-1
-          img.card_back.animate_ttl
+          img.card_back.animate_ttl.animate_1_3_2.animate_2_3_1.animate_3_2_1.animate_4_2_1
         .col-sm-1
-          img.card_back.animate_ttr
+          img.card_back.animate_ttr.animate_1_3_4.animate_2_3_4.animate_3_2_4.animate_4_2_3
         .col-sm-1
-         img.card_back.animate_ttb
+         img.card_back.animate_ttb.animate_1_3_1.animate_2_3_2.animate_3_2_3.animate_4_2_4
       .col-lg-5
 
     .row(style="height:223px;margin:0px;padding:0px;")
       .col-sm-12
         .row(style="height:50px;")
       .col-sm-12(style="padding:0px;margin:0px;")
-        .col-sm-2.show-player
+        .col-sm-2.show-player.p_1_2.p_2_1.p_3_1.p_4_1
           .col-sm-1
-            img.card_back.animate_ltt
+            img.card_back.animate_ltt.animate_1_2_3.animate_2_1_3.animate_3_1_2.animate_4_1_2
           .col-sm-1
-            img.card_back.animate_ltr
+            img.card_back.animate_ltr.animate_1_2_4.animate_2_1_4.animate_3_1_4.animate_4_1_3
           .col-sm-1
-           img.card_back.animate_ltb
+           img.card_back.animate_ltb.animate_1_2_1.animate_2_1_2.animate_3_1_3.animate_4_1_4
         .col-sm-3
         .col-sm-2
           .col-sm-12.card_back
-            img.card_back.animate_dtb
+            img#deck_card.card_back
         .col-sm-3
-        .col-sm-2.show-player
+        .col-sm-2.show-player.p_1_4.p_2_4.p_3_4.p_4_3
           .col-sm-1
-            img.card_back.animate_rtl
+            img.card_back.animate_rtl.animate_1_4_2.animate_2_4_1.animate_3_4_1.animate_4_3_1
           .col-sm-1
-            img.card_back.animate_rtt
+            img.card_back.animate_rtt.animate_1_4_3.animate_2_4_3.animate_3_4_2.animate_4_3_2
           .col-sm-1
-           img.card_back.animate_rtb
+           img.card_back.animate_rtb.animate_1_4_1.animate_2_4_2.animate_3_4_3.animate_4_3_4
       .col-sm-12
         .row(style="height:50px;")
     .row
       .col-lg-5
-      .col-lg-2.show-player
+      .col-lg-2.show-player.p_1_1.p_2_2.p_3_3.p_4_4
         .col-sm-1
-          img.card_back.animate_btl
+          img.card_back.animate_btl.animate_1_1_2.animate_2_2_1.animate_3_3_1.animate_4_4_1
         .col-sm-1
-          img.card_back.animate_btt
+          img.card_back.animate_btt.animate_1_1_3.animate_2_2_3.animate_3_3_2.animate_4_4_2
         .col-sm-1
-         img.card_back.animate_btr
+         img.card_back.animate_btr.animate_1_1_4.animate_2_2_4.animate_3_3_4.animate_4_4_3
       .col-lg-5
   .col-lg-2.draw-border-blue
-    table.table.draw-border
+    table.table.draw-border(style="margin-top:10px;")
+      thead.thead
+        th Books Count
       for player in players
         tr
-          td Player: #{player}
+          td Player #{player.player_number} : #{player.books_count}
 
   .col-lg-3.draw-border-chat
     block content
@@ -71,6 +73,9 @@ block content
     br
 
   .row
+  br
+  #player-turn-area.col-sm-9.draw-border
+    include playerTurn.pug
   #socket.draw-border
     .message
     br

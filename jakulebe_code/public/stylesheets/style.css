@@ -17,6 +17,22 @@ a {
   color: #00B7FF;
 }
 
+#player-turn-area  *{
+  align-items: center;
+  vertical-align: middle;
+  padding: 4px 10px 4px 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#player-turn-area span{
+  padding: 2px 10px 2px 10px;
+}
+
+.play-area .show-player  .col-sm-1  img {
+
+}
+
 /*CARDS related Styles*/
 .card_back{
     border: 1px solid black;
@@ -348,7 +364,7 @@ a {
     width: 79px;
     height: 123px;
 }
-#card3s{
+#card2S{
   border: 1px solid black;
   border-radius: 3px;
     background: url(../img/cards_sprite.png) -79px -369px;
@@ -716,7 +732,7 @@ table, th, td {
 
 .animate_1_2_3 , .animate_2_1_3 , .animate_3_1_2 , .animate_4_1_2 , .animate_ltt {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 101;
   left:-100px;
   top:0px;
@@ -724,7 +740,7 @@ table, th, td {
 }
 .animate_1_2_4 , .animate_2_1_4 , .animate_3_1_4 , .animate_4_1_3 , .animate_ltr {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 102;
   left:-100px;
   top:0px;
@@ -732,7 +748,7 @@ table, th, td {
 }
 .animate_1_2_1 , .animate_2_1_2 , .animate_3_1_3 , .animate_4_1_4 , .animate_ltb {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 103;
   left:-100px;
   top:0px;
@@ -740,7 +756,7 @@ table, th, td {
 }
 .animate_1_3_2 , .animate_2_3_1 , .animate_3_2_1 , .animate_4_2_1 , .animate_ttl {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 101;
   left:0px;
   top:-100px;
@@ -748,7 +764,7 @@ table, th, td {
 }
 .animate_1_3_4 , .animate_2_3_4 , .animate_3_2_4 , .animate_4_2_3 , .animate_ttr {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 102;
   left:0px;
   top:-100px;
@@ -756,7 +772,7 @@ table, th, td {
 }
 .animate_1_3_1 , .animate_2_3_2 , .animate_3_2_3 , .animate_4_2_4 , .animate_ttb {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 103;
   left:0px;
   top:-100px;
@@ -764,7 +780,7 @@ table, th, td {
 }
 .animate_1_4_2 , .animate_2_4_1 , .animate_3_4_1 , .animate_4_3_1 , .animate_rtl {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 101;
   left:100px;
   top:0px;
@@ -772,7 +788,7 @@ table, th, td {
 }
 .animate_1_4_3 , .animate_2_4_3 , .animate_3_4_2 , .animate_4_3_2 , .animate_rtt {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 102;
   left:100px;
   top:0px;
@@ -780,7 +796,7 @@ table, th, td {
 }
 .animate_1_4_1 , .animate_2_4_2 , .animate_3_4_3 , .animate_4_3_4 , .animate_rtb {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 103;
   left:100px;
   top:0px;
@@ -788,7 +804,7 @@ table, th, td {
 }
 .animate_1_1_2 , .animate_2_2_1 , .animate_3_3_1 , .animate_4_4_1 , .animate_btl {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 101;
   left:0px;
   top:100px;
@@ -796,7 +812,7 @@ table, th, td {
 }
 .animate_1_1_3 , .animate_2_2_3 , .animate_3_3_2 , .animate_4_4_2 , .animate_btt {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 102;
   left:0px;
   top:100px;
@@ -804,7 +820,7 @@ table, th, td {
 }
 .animate_1_1_4 , .animate_2_2_4 , .animate_3_3_4 , .animate_4_4_3 , .animate_btr {
   position: relative;
-  animation-duration: 3s;
+  animation-duration: 2.1s;
   z-index: 103;
   left:0px;
   top:100px;

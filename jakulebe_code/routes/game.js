@@ -25,7 +25,28 @@ router.use(function getGameInfo(req, res, next){
       });
 });
 
+function getPlayersGameInfo(req, res, next){
+  const gameID = parseInt(req.query.gameID);
+  const getPlayersInGameQuery = `SELECT * FROM Players WHERE player_id IN (Select player_id FROM Players WHERE game_id = $1)`;
+  const playersInGame = [];
 
+  database.any(getPlayersInGameQuery, [gameID])
+    .then(function(data){
+      if (data != null && data.length > 0)
+      {
+        for (var index = 0; index < data.length; index++)
+        {
+            playersInGame[index] = data[index];
+        }
+      }
+      res.locals.playersInGame = playersInGame;
+      next();
+    })
+    .catch(function(error) {
+      console.log("ERROR:",error);
+      return res.send(error);
+    });
+}
 
 
 function getPlayersInfo(req, res, next){
@@ -51,7 +72,7 @@ function getPlayersInfo(req, res, next){
     });
 }
 
-router.use(getPlayersInfo);
+router.use(getPlayersGameInfo);
 
 function getPlayerIDByPlayerName(req, res, next){
   const playerName = req.session.passport.user;
