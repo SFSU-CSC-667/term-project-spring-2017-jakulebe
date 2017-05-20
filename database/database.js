@@ -1,5 +1,4 @@
-var connectionString = 'postgres://localhost:5432/jakulebe';
 var pgp = require('pg-promise')();
-var database = pgp(connectionString);
+var database = pgp(process.env.DATABASE_URL);
 
 module.exports={database};
