@@ -61,6 +61,14 @@ const init = (app, server) => {
 
         socket.on('GET_HAND', getHand)
 
+        socket.on('REQUEST_CARD', requestCard)
+
+        socket.on('REFRESH_HAND', getHand)
+
+        socket.on('GO_FISH', goFish)
+
+        socket.on('GET_TURN_STATUS', getTurnStatus)
+
         function initializeGameSockets(userPackage) {
             console.log("joining game: ", userPackage.gameID);
             console.log("player channel: ", userPackage.playerChannel);
@@ -105,22 +113,57 @@ const init = (app, server) => {
                     }
                     userPackage.hand = hand;
                     console.log("hand length = ", hand.length);
-                    var cardString = 'cards = '; //this is for testing purposes only
-                    for (var index = 0; index < hand.length; index++) {
-                        cardString += hand[index].card_name.toString();
-                        cardString += ' ';
-                        //console.log("card string = ", cardString);
-                    }
-                    //will normally send the array of cards to client and client will
-                    //use that to process and display cards
-                    io.sockets.in(userPackage.playerChannel).emit('SEND_CARDS', cardString);
+
+                    io.sockets.in(userPackage.playerChannel).emit('SEND_CARDS', hand);
                 })
                 .catch(function(error) {
                     console.log("ERROR:", error);
                 });
         }
-        function goFish(userPackage) {
+        function requestCard(userPackage) {
+            var rCard = userPackage.rCard;
+            var rPlayer = userPackage.rPlayer;
+            var gameID = userPackage.gameID;
 
+            database.any(CHECK_FOR_REQUESTED_CARDS_QUERY, [gameID, rCard, gameID, rPlayer])
+              .then(function(data){
+                if (data != null && data.length > 0){
+                  console.log("cards found!");
+                  getRequestedCards(userPackage);
+                } else {
+                  console.log("cards not found!");
+                  io.sockets.in(userPackage.playerChannel).emit('NEED_TO_GO_FISH', userPackage);
+                }
+              })
+
+        }
+
+        function getRequestedCards(userPackage){
+          var rCard = userPackage.rCard;
+          var rPlayer = userPackage.rPlayer;
+          var gameID = userPackage.gameID;
+          var playerID = userPackage.playerID;
+
+          database.none(MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY, [playerID, gameID, rCard, gameID, rPlayer]);
+
+          io.sockets.in(userPackage.playerChannel).emit('REFRESH_CURR_PLAYER_CARDS', userPackage);
+          var test = 'wee';
+          io.sockets.in(userPackage.gameID).emit('REFRESH_ALL_PLAYERS_HANDS', test);
+
+        }
+
+        function goFish(userPackage){
+          var gameID = userPackage.gameID;
+          var playerID = userPackage.playerID;
+
+          database.none(GO_FISH_QUERY, [playerID, gameID]);
+
+          io.sockets.in(userPackage.playerChannel).emit('GO_FISH_RESULT', userPackage);
+          io.sockets.in(userPackage.gameID).emit('INCREMENT_CURRENT_PLAYER_TURN', 'wee');
+        }
+
+        function getTurnStatus(userPackage){
+          io.sockets.in(userPackage.gameID).emit('SEND_TURN_STATUS', 'wee');
         }
 
 

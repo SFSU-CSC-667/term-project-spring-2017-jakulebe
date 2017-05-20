@@ -12,65 +12,70 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var socket = io();
 
 var appendMessage = function appendMessage(message) {
-  $('.messages').append(message);
-  $('time.timeago').timeago();
+    $('.messages').append(message);
+    $('time.timeago').timeago();
 };
 
 var messageElement = function messageElement(_ref) {
-  var timestamp = _ref.timestamp,
-      user = _ref.user,
-      message = _ref.message;
-  return $('<div>', { class: 'message' }).text(message).prepend(timestampElement(timestamp), userElement(user));
+    var timestamp = _ref.timestamp,
+        user = _ref.user,
+        message = _ref.message;
+    return $('<div>', {
+        class: 'message'
+    }).text(message).prepend(timestampElement(timestamp), userElement(user));
 };
 
 var timestampElement = function timestampElement(time) {
-  var element = $('<time>', {
-    class: 'timeago',
-    datetime: (0, _moment2.default)(time).format()
-  }).text((0, _moment2.default)(time).format('hh:mm:ss'));
+    var element = $('<time>', {
+        class: 'timeago',
+        datetime: (0, _moment2.default)(time).format()
+    }).text((0, _moment2.default)(time).format('hh:mm:ss'));
 
-  return element[0];
+    return element[0];
 };
 
 var userElement = function userElement(userName) {
-  return $('<span>', { class: 'user' }).text(userName)[0];
+    return $('<span>', {
+        class: 'user'
+    }).text(userName)[0];
 };
 
 var userJoined = function userJoined(data) {
-  return appendMessage(messageElement(Object.assign(data, { message: ' joined' })));
+    return appendMessage(messageElement(Object.assign(data, {
+        message: ' joined'
+    })));
 };
 
 var messageReceived = function messageReceived(data) {
-  return appendMessage(messageElement(Object.assign(data, { user: data.user + ' said' })));
+    return appendMessage(messageElement(Object.assign(data, {
+        user: data.user + ' said'
+    })));
 };
 
 var intializeSocket = function intializeSocket() {
-  socket.on(_events.USER_JOINED, userJoined);
-  socket.on(_events.MESSAGE_SEND, messageReceived);
+    socket.on(_events.USER_JOINED, userJoined);
+    socket.on(_events.MESSAGE_SEND, messageReceived);
 };
 
 $(document).ready(function () {
-  var user = 'anonymous';
-  user = $('#name').val();
+    var user = 'anonymous';
+    user = $('#name').val();
+    intializeSocket();
+    socket.emit(_events.USER_JOINED, {
+        user: user,
+        timestamp: Date.now()
+    });
 
-  /*$( '#initial-form button' ).click( event => {
-    user = $( '#who-are-you' ).val()
-     $( '#initial-form' ).hide()
-    $( '#chat-area' ).show()
-    */
+    $('#chat-area button').click(function (event) {
+        var message = $('#chat-area input').val();
+        $('#chat-area input').val('');
 
-  intializeSocket();
-  socket.emit(_events.USER_JOINED, { user: user, timestamp: Date.now() });
-
-  //return false
-
-
-  $('#chat-area button').click(function (event) {
-    var message = $('#chat-area input').val();
-    $('#chat-area input').val('');
-
-    socket.emit(_events.MESSAGE_SEND, { user: user, timestamp: Date.now(), message: message });
-  });
+        socket.emit(_events.MESSAGE_SEND, {
+            user: user,
+            timestamp: Date.now(),
+            message: message
+        });
+    });
 });
 
 },{"../src/constants/events":3,"moment":2}],2:[function(require,module,exports){

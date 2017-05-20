@@ -31,18 +31,25 @@ const MOVE_BOOK_OUT_OF_HAND_QUERY = `UPDATE cards_in_play SET player_id = -2 WHE
                                     AND player_id = $2 AND value = $3)`;
 
 //Query to see if target player has desired cards
-const CHECK_FOR_REQUESTED_CARDS_QUERY = `SELECT * FROM cards_in_play WHERE player_id = $1
-                                        AND game_id = $2 AND value = $3`;
+const CHECK_FOR_REQUESTED_CARDS_QUERY = `SELECT * FROM cards_in_play WHERE game_id = $1 AND
+                                        value = $2 AND player_id IN (SELECT player_id FROM players
+                                        WHERE game_id = $3 AND player_number = $4)`;
 
-//move cards from $3's hand to $1's hand
+
 const MOVE_CARDS_TO_REQUESTING_PLAYER_QUERY = `UPDATE cards_in_play SET player_id = $1 WHERE
-                                              card_id IN (SELECT card_id from cards_in_play WHERE
-                                              game_id = $2 AND player_id = $3 AND value = $4)`;
+                                              card_id IN (
+                                                SELECT card_id from cards_in_play WHERE
+                                                game_id = $2 AND value = $3 AND player_id in (
+                                                  SELECT player_id FROM players WHERE game_id = $4
+                                                  AND player_number = $5
+                                                ))`;
 
 const GET_PLAYER_TURN_QUERY = `SELECT player_turn FROM games WHERE game_id = $1`;
 
 const ADD_PLAYER_CHANNEL_TO_PLAYERS_QUERY = `UPDATE players SET player_channel = $1 WHERE
                                             player_id = $2 and game_id = $3`;
+
+
 
 module.exports = {GET_PLAYER_NAME_BY_ID_QUERY,
                   GET_PLAYER_ID_BY_NAME_QUERY,

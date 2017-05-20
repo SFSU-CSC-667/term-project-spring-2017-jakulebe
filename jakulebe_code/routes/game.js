@@ -25,12 +25,12 @@ router.use(function getGameInfo(req, res, next){
       });
 });
 
-function getPlayersGameInfo(req, res, next){
+/*function getPlayersGameInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);
-  const getPlayersInGameQuery = `SELECT * FROM Players WHERE player_id IN (Select player_id FROM Players WHERE game_id = $1)`;
+  const getPlayersInGameQuery = `SELECT * FROM Players WHERE game_id = $1 AND player_id IN (Select player_id FROM Players WHERE game_id = $2)`;
   const playersInGame = [];
 
-  database.any(getPlayersInGameQuery, [gameID])
+  database.any(getPlayersInGameQuery, [gameID, gameID])
     .then(function(data){
       if (data != null && data.length > 0)
       {
@@ -47,7 +47,18 @@ function getPlayersGameInfo(req, res, next){
       return res.send(error);
     });
 }
+*/
 
+function getPlayersGameInfo(req, res, next){
+  const playersInGame = [];
+  for (var i = 0; i < 4; i ++){
+    var player = new Object();
+    player.player_number = i+1;
+    playersInGame[i] = player;
+  }
+  res.locals.playersInGame = playersInGame;;
+  next();
+}
 
 function getPlayersInfo(req, res, next){
   const gameID = parseInt(req.query.gameID);

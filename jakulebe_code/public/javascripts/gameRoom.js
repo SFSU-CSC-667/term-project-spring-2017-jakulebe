@@ -11,6 +11,7 @@ userPackage.username = username;
 userPackage.playerChannel = playerChannel;
 userPackage.playerNumber = playerNumber;
 userPackage.currentPlayerTurn = 1;
+userPackage.booksWon = 0;
 
 var socket = io();
 
@@ -25,10 +26,62 @@ socket.on('PLAYER_TEST', function(userPackage) {
 })
 
 
+socket.on('SEND_CARDS', function(hand) {
+  $('.show-player > .col-sm-1 > img ').hide();
+  $('.hand').empty();
+  for (var i = 0; i < hand.length; i++){
+    $('.hand').prepend('<img id= "card' + hand[i].card_name + '"/>');
+  }
 
-socket.on('SEND_CARDS', function(cardString) {
+  if (userPackage.currentPlayerTurn == userPackage.playerNumber){
+    //$('.message').hide()
+    $('#player-turn-area').show();
+  } else {
+    $('.message').text(`it is player ${userPackage.currentPlayerTurn}'s turn`);
+  }
+})
+
+socket.on('INCREMENT_CURRENT_PLAYER_TURN', function(dataPackage){
+  if (userPackage.currentPlayerTurn < 4){
+    userPackage.currentPlayerTurn++;
+  } else {
+    userPackage.currentPlayerTurn = 1;
+  }
+  socket.emit('GET_TURN_STATUS', 'wee');
+})
+
+socket.on('REFRESH_CURR_PLAYER_CARDS', function(userPackage){
+  socket.emit('REFRESH_HAND', userPackage);
+})
+
+socket.on('REFRESH_ALL_PLAYERS_HANDS', function(test){
+  socket.emit('REFRESH_HAND', userPackage);
+})
+
+socket.on('NEED_TO_GO_FISH', function(userPackage){
+  $('.status').text('GOING FISHING!!!!');
+  socket.emit('GO_FISH', userPackage);
+})
+
+socket.on('GO_FISH_RESULT', function(userPackage){
+  $('#player-turn-area').hide()
+  socket.emit('REFRESH_HAND', userPackage);
+  $('.status').text('You received a card!');
+  //animateCards(playerNumber,rPlayer,playerNumber);
+})
+
+socket.on('SEND_TURN_STATUS', function(userPackage){
+  if (userPackage.currentPlayerTurn == userPackage.playerNumber){
+    //$('.message').hide()
+    $('#player-turn-area').show();
+  } else {
+    $('.message').text(`it is player ${userPackage.currentPlayerTurn}'s turn`);
+  }
+})
+/*socket.on('SEND_CARDS', function(cardString) {
     $('.show-player > .col-sm-1 > img ').hide();
 })
+*/
 
 var animateCards = function(loggedInUserId, fromPlayerId , toPlayerId){
 
@@ -49,7 +102,7 @@ var animateCards = function(loggedInUserId, fromPlayerId , toPlayerId){
 };
 
 $(document).ready(() => {
-
+    $('#player-turn-area').hide()
     $('#startGame').hide()
     $('#deck_card').hide();
     $('.show-player .col-sm-1 img ').hide();
@@ -77,7 +130,9 @@ $(document).ready(() => {
         var rPlayer = $('#playerRequestOpponent :selected').val();
         animateCards(playerNumber,rPlayer,playerNumber);
         // alert("Requesting "+$('#playerRequestCard :selected').text()+":"+$('#playerRequestCard :selected').val()+" from Player"+$('#playerRequestOpponent :selected').val())
-
+        userPackage.rCard = rCard;
+        userPackage.rPlayer = rPlayer;
+        socket.emit('REQUEST_CARD', userPackage);
 
     })
 

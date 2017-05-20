@@ -64,7 +64,7 @@ block content
         th Books Count
       for player in players
         tr
-          td Player #{player.player_number} : #{player.books_count}
+          td Player #{player.player_number} : 0
 
   .col-lg-3.draw-border-chat
     block content
@@ -77,13 +77,15 @@ block content
   #player-turn-area.col-sm-9.draw-border
     include playerTurn.pug
   #socket.draw-border
+    br
     .message
-    br
-    .playerMessage
-    br
-    .startGameMessage
-    br
     .hand
+    br
+    br
+    br
+    br
+    br
+    .status
 
     block content
     #startGame
